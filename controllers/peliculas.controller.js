@@ -1,14 +1,21 @@
-const db = require('../database/db');
+const PeliculasModel = require('../models/peliculas.model');
 
 class PeliculaController {
     listar(req,res) {
-        res.render('peliculas', { peliculas: db.peliculas });
+        //obtenemos datos del modelo
+        const peliculas = PeliculasModel.listar();
+        //enviamos a la vista
+        res.render('peliculas', { peliculas });
     }
 
     crear(req,res) {
-        const nuevaPelicula = req.body;
-        db.peliculas.push(nuevaPelicula);
-        res.redirect('/peliculas');
+        PeliculasModel.crear(req.body)
+        .then(nuevaPelicula => {
+            res.redirect('/peliculas');// redirigir a la lista de películas después de crear una nueva
+        })
+        .catch(error => {
+            res.status(400).send({ error });// mostrar error
+        });
     }
 
 }
