@@ -8,7 +8,7 @@ class PeliculasModel {
     crear(datos) {
         return new Promise((resolve, reject) => {
             //validacion
-            if(!datos.titulo || !datos.director){
+            if(!datos.titulo || !datos.director || !datos.genero || !datos.duracion ){
                 return reject("Faltan datos obligatorios para crear la pelicula")
             }
 
@@ -16,10 +16,12 @@ class PeliculasModel {
                 id: uuid.v4(),
                 titulo: datos.titulo,
                 director: datos.director,
-                anio: datos.anio
-        };
-
-        db.peliculas.push(nuevaPelicula);
+                anio: datos.anio,
+                genero: datos.genero,
+                duracion: datos.duracion,
+                sinopsis: datos.sinopsis
+            };
+            db.peliculas.push(nuevaPelicula);
         resolve(nuevaPelicula);
 
 

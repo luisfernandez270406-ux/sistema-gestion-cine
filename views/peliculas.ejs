@@ -9,9 +9,13 @@
     <h1>Lista de Películas</h1>
     <ul>
         <% peliculas.forEach(pelicula => { %>
-            <li><strong><%= pelicula.titulo %></strong> - Director: <%= pelicula.director %>, Año: <%= pelicula.anio %></li>
+            <li><strong><%= pelicula.titulo %></strong> - Director: <%= pelicula.director %>, Año: <%= pelicula.anio %>, Duración: <%= pelicula.duracion %> min, sinopsis: <%= pelicula.sinopsis %></li>
         <% }) %>
     </ul>
+
+    <button onclick="window.location.href='/peliculas/nueva'">Agregar Nueva Película</button>
+
+    
     
 </body>
 </html>

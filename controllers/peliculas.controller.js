@@ -8,6 +8,10 @@ class PeliculaController {
         res.render('peliculas', { peliculas });
     }
 
+    mostrarFormulario(req,res) {
+        res.render('nueva-pelicula');
+    }
+
     crear(req,res) {
         PeliculasModel.crear(req.body)
         .then(nuevaPelicula => {
