@@ -8,5 +8,9 @@ router.get('/', PeliculasController.listar);
 router.post('/', PeliculasController.crear);
 // ruta formulario de nueva pelicula
 router.get('/nueva', PeliculasController.mostrarFormulario);
+// ruta para editar una película
+router.put('/:id', PeliculasController.editar);
+// ruta para eliminar una película
+router.delete('/:id', PeliculasController.eliminar);
 
 module.exports = router;

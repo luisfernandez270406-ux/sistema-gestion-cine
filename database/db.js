@@ -21,7 +21,14 @@ module.exports = {
             sinopsis: 'Un programador descubre que la realidad es una simulación...'
         },
     ],
-    salas: [],
+    salas: [
+        {
+            id: '1',
+            nombre: 'Sala 1',
+            capacidad: 100,
+            tipo: '2D'
+        },
+    ],
     funciones: [],
     tickets: [],
     reservaciones: []

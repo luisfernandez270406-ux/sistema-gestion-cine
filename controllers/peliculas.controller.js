@@ -28,6 +28,36 @@ class PeliculaController {
             res.status(400).send({ error });// mostrar error
         });
     }
+    editar(req,res) {
+        PeliculasModel.editar(req.params.id, req.body)
+        .then(peliculaActualizada => {
+            if(req.accepts('json') && !req.accepts('html')) {
+                return res.json(peliculaActualizada);
+            }
+            res.redirect('/peliculas');
+        })
+        .catch(error => {
+            if(req.accepts('json') && !req.accepts('html')) {
+                return res.status(404).json({ error });
+            }
+            res.status(404).send({ error });
+        });
+    }
+    eliminar(req,res) {
+        PeliculasModel.eliminar(req.params.id)
+        .then(() => {
+            if(req.accepts('json') && !req.accepts('html')) {
+                return res.json({ message: 'Pelicula eliminada correctamente' });
+            }
+            res.redirect('/peliculas');
+        })
+        .catch(error => {
+            if(req.accepts('json') && !req.accepts('html')) {
+                return res.status(404).json({ error });
+            }
+            res.status(404).send({ error });
+        });
+    }
 
 }
 

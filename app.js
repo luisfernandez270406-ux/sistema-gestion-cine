@@ -16,6 +16,9 @@ app.get('/', (req, res) => {
 // Rutas de películas
 app.use('/peliculas', require('./routes/peliculas'));
 
+//rutas de salas
+app.use('/salas', require('./routes/salas'));
+
 //Iniciar el servidor\
 const PORT = 3000;
 app.listen(PORT, () => {
