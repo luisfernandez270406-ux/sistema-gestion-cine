@@ -19,6 +19,13 @@ app.use('/peliculas', require('./routes/peliculas'));
 //rutas de salas
 app.use('/salas', require('./routes/salas'));
 
+//rutas de funciones
+app.use('/funciones', require('./routes/funciones'));
+//rutas de reservaciones
+app.use('/reservaciones', require('./routes/reservaciones'));
+//rutas de tickets
+app.use('/tickets', require('./routes/tickets'));
+
 //Iniciar el servidor\
 const PORT = 3000;
 app.listen(PORT, () => {

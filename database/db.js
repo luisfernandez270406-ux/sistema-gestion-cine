@@ -29,7 +29,30 @@ module.exports = {
             tipo: '2D'
         },
     ],
-    funciones: [],
-    tickets: [],
-    reservaciones: []
+    funciones: [
+        {
+            id: '1',
+            peliculaId: '1',
+            salaId: '1',
+            horario: '2026-12-01T20:00:00',
+            precio: 10.00
+        },
+    ],
+    tickets: [
+        {
+            id: '1',
+            reservacionId: '1',
+            fechaCompra: '2026-11-01T15:00:00',
+            metodoPago: 'Tarjeta de Crédito'
+
+        }
+    ],
+    reservaciones: [
+        {
+            id: '1',
+            funcionId: '1',
+            nombreCliente: 'Juan Pérez',
+            cantidad: 2
+        }
+    ]
 };
