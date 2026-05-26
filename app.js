@@ -11,7 +11,7 @@ app.use(express.json());
 
 // Ruta principal de prueba
 app.get('/', (req, res) => {
-    res.send('Servidor de CINE activo - Lucho Facha');
+    res.render('index'); 
 });
 // Rutas de películas
 app.use('/peliculas', require('./routes/peliculas'));

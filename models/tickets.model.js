@@ -16,7 +16,7 @@ class TicketsModel {
             const ticket = {
                 id: uuid.v4(),
                 reservacionId: datos.reservacionId,
-                fechaCompra: new Date().toISOString(),
+                fechaCompra: datos.fechaCompra || new Date().toISOString(),
                 metodoPago: datos.metodoPago
             };
             db.tickets.push(ticket);
@@ -84,6 +84,29 @@ class TicketsModel {
             resolve(datosFuncion);
         });
     }
+    obtenerUltimosElementos(){
+        return db.tickets
+        .sort((a, b) => new Date(b.fechaCompra) - new Date(a.fechaCompra))
+        .slice(0,5);
+    }
+
+    filtrarPorFecha(inicio, fin) {
+    // 1. Convertimos los inputs a milisegundos (limpios)
+    const fechaInicio = new Date(inicio).getTime();
+    const fechaFin = new Date(fin).getTime();
+
+    // 2. Filtramos la base de datos
+    return db.tickets.filter(ticket => {
+        // IMPORTANTE: Aseguramos que el campo fecha exista antes de procesarlo
+        if (!ticket.fechaCompra) return false;
+
+        // 3. Convertimos la fecha de la DB a milisegundos
+        const fechaCompra = new Date(ticket.fechaCompra).getTime();
+        
+        // 4. Comparación numérica (la única que nunca falla)
+        return fechaCompra >= fechaInicio && fechaCompra <= fechaFin;
+    });
+}
 }
 
 module.exports = new TicketsModel();
