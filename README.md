@@ -1,6 +1,6 @@
 # Proyecto de Gestión de Cine
 Manual de Usuario: Sistema de Gestión de Cine
-1. Introducción
+# 1. Introducción
 Este sistema permite la administración integral de un cine, facilitando el control de películas, reservaciones, salas, tickets y funciones de manera organizada y eficiente.
 2. Requisitos Previos
 Para ejecutar el sistema en tu equipo, asegúrate de tener instalado:
