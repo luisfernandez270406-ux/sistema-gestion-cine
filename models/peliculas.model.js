@@ -39,15 +39,30 @@ class PeliculasModel {
         });
 }       
     eliminar(id) {
-        return new Promise((resolve, reject) => {
-            const peliculaIndex = db.peliculas.findIndex(p => p.id === id);
-            if(peliculaIndex === -1) {
-                return reject("Pelicula no encontrada");
-            }
-            const eliminada = db.peliculas.splice(peliculaIndex, 1);
-            resolve(eliminada[0]);
+    return new Promise((resolve, reject) => {
+        // 1. Validación segura de relaciones usando encadenamiento opcional (?.)
+        const existeReservacion = db.reservaciones.some(r => {
+            const funcion = db.funciones.find(f => f.id == r.funcionId);
+            return funcion?.peliculaId == id; 
         });
-    }
+
+        if (existeReservacion) {
+            // Mandamos el mensaje al .catch() del controlador
+            return reject('No se puede eliminar la película porque tiene reservaciones asociadas');
+        }
+
+        // 2. Búsqueda segura del índice
+        const index = db.peliculas.findIndex(p => p.id == id);
+        
+        if (index === -1) {
+            return reject('Película no encontrada');
+        }
+
+        // 3. Eliminación del arreglo
+        db.peliculas.splice(index, 1);
+        resolve(); // Todo salió bien, va al .then() del controlador
+    });
+}
 }
 
 module.exports = new PeliculasModel();
