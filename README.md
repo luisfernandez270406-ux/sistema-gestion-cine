@@ -4,7 +4,7 @@ Manual de Usuario: Sistema de Gestión de Cine
 Este sistema permite la administración integral de un cine, facilitando el control de películas, reservaciones, salas, tickets y funciones de manera organizada y eficiente.
 ## 2. Requisitos Previos
 Para ejecutar el sistema en tu equipo, asegúrate de tener instalado:
-•	Node.js: (Versión 18 o superior recomendada).
+•	Node.js.
 ## 3. Instalación y Puesta en Marcha
 Una vez descargado el proyecto, sigue estos pasos desde la terminal:
 1.	Instalar dependencias: Entra a la carpeta del proyecto y escribe: npm install
