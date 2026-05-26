@@ -81,7 +81,7 @@ El sistema permite gestionar de forma completa el ciclo de vida de los datos par
 •	Editar(PUT/tickets/editar/:id): Modifca el contenido de un ticket
 
 
-•	Eliminar(DELETE/tickets/editar/:id): Elimina el ticket
+•	Eliminar(DELETE/tickets/eliminar/:id): Elimina el ticket
 
 
 ### Consultas Avanzadas (Filtros requeridos):
