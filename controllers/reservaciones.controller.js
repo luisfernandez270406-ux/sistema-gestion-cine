@@ -3,6 +3,7 @@ const ReservacionesModel = require('../models/reservaciones.model');
 class ReservacionesController {
     async listar(req,res) {
         try {
+            // await = perate un momentico
             const reservaciones = await ReservacionesModel.listarDetallado();
             if(req.accepts('json') && !req.accepts('html')) {
                 return res.json(reservaciones);
@@ -44,6 +45,9 @@ class ReservacionesController {
         } catch (error) {
             res.status(400).json({ error: error.message });
         }
+    }
+    mostrarFormulario(req,res) {
+        res.render('nueva-reservacion');
     }
 }
 

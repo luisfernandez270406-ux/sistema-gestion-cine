@@ -42,10 +42,11 @@ module.exports = {
         {
             id: '1',
             reservacionId: '1',
-            fechaCompra: '2026-11-01T15:00:00',
+            fechaCompra: '2026-11-01T15:00',
             metodoPago: 'Tarjeta de Crédito'
 
-        }
+        },
+          
     ],
     reservaciones: [
         {
@@ -54,5 +55,6 @@ module.exports = {
             nombreCliente: 'Juan Pérez',
             cantidad: 2
         }
+        
     ]
 };

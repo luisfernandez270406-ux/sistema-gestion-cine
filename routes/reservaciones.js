@@ -10,5 +10,7 @@ router.post('/', ReservacionesController.crear);
 router.put('/editar/:id', ReservacionesController.editar);
 //ruta para eliminar una reservacion
 router.delete('/eliminar/:id', ReservacionesController.eliminar);
+//ruta para mostrar el formulario de nueva reservacion
+router.get('/nueva', ReservacionesController.mostrarFormulario);
 
 module.exports = router;
