@@ -4,19 +4,33 @@ const { v4: uuidv4 } = require('uuid');
 class ReservacionesModel {
   
     static async listarDetallado() {
-        const [reservaciones] = await pool.query('SELECT * FROM reservaciones');
-        return reservaciones;
-    }
-  
-    static async crear(datos) {
-        const { id_funcion, nombre_cliente, cantidad_asientos } = datos;
-        const id = uuidv4(); 
-        const [resultado] = await pool.query(
-            'INSERT INTO reservaciones (id, id_funcion, nombre_cliente, cantidad_asientos) VALUES (?, ?, ?, ?)',
-            [id, id_funcion, nombre_cliente, cantidad_asientos]
-        );
-        return { id, ...resultado };
-    }
+    const [reservaciones] = await pool.query(`
+        SELECT
+            r.id,
+            r.nombre_cliente,
+            r.cantidad_asientos,
+
+            p.titulo,
+
+            s.nombre AS sala,
+
+            f.horario,
+            f.precio
+
+        FROM reservaciones r
+
+        INNER JOIN funciones f
+            ON r.id_funcion = f.id
+
+        INNER JOIN peliculas p
+            ON f.id_pelicula = p.id
+
+        INNER JOIN salas s
+            ON f.id_sala = s.id
+    `);
+
+    return reservaciones;
+}
 
     static async editar(id, datos) {
         const { id_funcion, nombre_cliente, cantidad_asientos } = datos;
