@@ -1,14 +1,22 @@
 const SalasModel = require('../models/salas.model');
 
 class SalasController {
-    listar(req,res) {
-        const salas = SalasModel.listar();
-
-        if(req.accepts('json') && !req.accepts('html')) {
-            return res.json(salas);
-        }
-        res.render('salas', { salas });
-    }
+    listar(req, res) {
+    
+    SalasModel.listar()
+        .then(salas => {
+            
+            if(req.accepts('json') && !req.accepts('html')) {
+                return res.json(salas);
+            }
+            res.render('salas', { salas });
+        })
+        .catch(error => {
+            
+            console.error('Error al obtener las salas:', error);
+            res.status(500).json({ error: 'Error al cargar las salas' });
+        });
+}
 
     crear(req,res) {
         SalasModel.crear(req.body)

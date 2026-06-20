@@ -1,47 +1,58 @@
-const uuid = require('uuid');
-const db = require('../database/db');
+const { v4: uuidv4 } = require('uuid');
+const pool = require('../database/db'); 
 
 class SalasModel {
-    listar() {
-        return db.salas;
+    static async listar() {
+        try {
+            const [filas] = await pool.query('SELECT * FROM salas');
+            return filas;
+        } catch (error) {
+            console.error('Error al listar salas:', error);
+            throw error;
+        }
     }
 
-    crear(datos) {
-        return new Promise((resolve, reject) => {
-            if(!datos.nombre || !datos.capacidad || !datos.tipo) {
-                return reject("Faltan datos obligatorios para crear la sala");
-            }
-            const nuevaSala = {
-                id: uuid.v4(),
-                nombre: datos.nombre,
-                capacidad: datos.capacidad,
-                tipo: datos.tipo
-            };
-            db.salas.push(nuevaSala);
-            resolve(nuevaSala);
-        });
+    static async crear(datosSala) {
+        try {
+            const id = uuidv4();
+            const { nombre, capacidad, tipo } = datosSala;
+            
+            const [resultado] = await pool.query(
+                'INSERT INTO salas (id, nombre, capacidad, tipo) VALUES (?, ?, ?, ?)', 
+                [id, nombre, capacidad, tipo]
+            );
+            return resultado;
+        } catch (error) {
+            console.error('Error al crear sala:', error);
+            throw error;
+        }
     }
-    editar(id, datos) {
-        return new Promise((resolve, reject) => {
-            const salaIndex = db.salas.findIndex(s => s.id === id);
-            if(salaIndex === -1) {
-                return reject("Sala no encontrada");
-            }
-            const salaActualizada = { ...db.salas[salaIndex], ...datos };
-            db.salas[salaIndex] = salaActualizada;
-            resolve(salaActualizada);
-        });
+    static async editar(id, datosSala) {
+        try {
+            const { nombre, capacidad, tipo } = datosSala;
+            const [resultado] = await pool.query(
+                'UPDATE salas SET nombre = ?, capacidad = ?, tipo = ? WHERE id = ?',
+                [nombre, capacidad, tipo, id]
+            );
+            return resultado.affectedRows > 0;
+        } catch (error) {
+            console.error(`Error al editar sala ${id}:`, error);
+            throw error;
+        }
     }
-    eliminar(id) {
-        return new Promise((resolve, reject) => {
-            const salaIndex = db.salas.findIndex(s => s.id === id);
-            if(salaIndex === -1) {
-                return reject("Sala no encontrada");
-            }
-            const eliminada = db.salas.splice(salaIndex, 1);
-            resolve(eliminada[0]);
-        });
+
+    static async eliminar(id) {
+        try {
+            const [resultado] = await pool.query('DELETE FROM salas WHERE id = ?', [id]);
+            return resultado.affectedRows > 0;
+        } catch (error) {
+            console.error(`Error al eliminar sala ${id}:`, error);
+            throw error;
+        }
     }
 }
 
-module.exports = new SalasModel();
+
+
+
+module.exports = SalasModel;

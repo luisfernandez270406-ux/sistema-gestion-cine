@@ -1,70 +1,37 @@
-const uuid = require('uuid');
-const db = require('../database/db');
+const pool = require('../database/db');
+const { v4: uuidv4 } = require('uuid');
 
 class ReservacionesModel {
-    listar() {
-        return db.reservaciones;
+  
+    static async listarDetallado() {
+        const [reservaciones] = await pool.query('SELECT * FROM reservaciones');
+        return reservaciones;
+    }
+  
+    static async crear(datos) {
+        const { id_funcion, nombre_cliente, cantidad_asientos } = datos;
+        const id = uuidv4(); 
+        const [resultado] = await pool.query(
+            'INSERT INTO reservaciones (id, id_funcion, nombre_cliente, cantidad_asientos) VALUES (?, ?, ?, ?)',
+            [id, id_funcion, nombre_cliente, cantidad_asientos]
+        );
+        return { id, ...resultado };
+    }
 
+    static async editar(id, datos) {
+        const { id_funcion, nombre_cliente, cantidad_asientos } = datos;
+        const [resultado] = await pool.query(
+            'UPDATE reservaciones SET id_funcion = ?, nombre_cliente = ?, cantidad_asientos = ? WHERE id = ?',
+            [id_funcion, nombre_cliente, cantidad_asientos, id]
+        );
+        return resultado;
     }
-    listarDetallado() {
-        return db.reservaciones.map(reserva => {
-            const funcion = db.funciones.find(f => f.id === reserva.funcionId);
-            
-            let nombrePelicula = "No encontrada";
-            if (funcion) {
-                const pelicula = db.peliculas.find(p => p.id === funcion.peliculaId);
-                if (pelicula) {
-                    nombrePelicula = pelicula.titulo;
-                }
-            }
 
-            return {
-                ...reserva,
-                nombrePelicula: nombrePelicula
-            };
-        });
-    }
-    crear(datos) {
-        return new Promise((resolve, reject) => {
-            const funcionExiste = db.funciones.find(f => f.id === datos.funcionId);
-            if (!funcionExiste) {
-                reject(new Error('La función no existe'));
-                return;
-            }
-            const nuevaReservacion = {
-                id: uuid.v4(),
-                ...datos
-            };
-            db.reservaciones.push(nuevaReservacion);
-            resolve(nuevaReservacion);
-        });
-    }
-    editar(id, datos) {
-        return new Promise((resolve, reject) => {
-            const reservacionIndex = db.reservaciones.findIndex(r => r.id === id);
-            if (reservacionIndex === -1) {
-                reject(new Error('Reservación no encontrada'));
-                return;
-            }
-            const reservacionActualizada = {
-                ...db.reservaciones[reservacionIndex],
-                ...datos
-            };
-            db.reservaciones[reservacionIndex] = reservacionActualizada;
-            resolve(reservacionActualizada);
-        });
-    }
-    eliminar(id) {
-        return new Promise((resolve, reject) => {
-            const reservacionIndex = db.reservaciones.findIndex(r => r.id === id);
-            if (reservacionIndex === -1) {
-                reject(new Error('Reservación no encontrada'));
-                return;
-            }
-            db.reservaciones.splice(reservacionIndex, 1);
-            resolve({ message: 'Reservación eliminada correctamente' });
-        });
+  
+    static async eliminar(id) {
+        const [resultado] = await pool.query('DELETE FROM reservaciones WHERE id = ?', [id]);
+        return resultado;
     }
 }
 
-module.exports = new ReservacionesModel();
+module.exports = ReservacionesModel;

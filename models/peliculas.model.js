@@ -55,6 +55,32 @@ class PeliculasModel {
             throw error;
         }
     }
+     async editar(id, datosPelicula) {
+        try {
+            const { titulo, genero, duracion, director, anio, sinopsis } = datosPelicula;
+            const [resultado] = await pool.query(
+                'UPDATE peliculas SET titulo = ?, genero = ?, duracion = ?, director = ?, anio = ?, sinopsis = ? WHERE id = ?',
+                [titulo, genero, duracion, director, anio, sinopsis, id]
+            );
+            return resultado;
+        } catch (error) {
+            console.error('Error al editar película:', error);
+            throw error;
+        }
+    }
+
+    async eliminar(id) {
+        try {
+            const [resultado] = await pool.query(
+                'DELETE FROM peliculas WHERE id = ?',
+                [id]
+            );
+            return resultado;
+        } catch (error) {
+            console.error('Error al eliminar película:', error);
+            throw error;
+        }
+    }
 }
 
 module.exports = PeliculasModel;

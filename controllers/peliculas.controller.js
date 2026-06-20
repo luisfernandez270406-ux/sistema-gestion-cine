@@ -1,16 +1,22 @@
 const PeliculasModel = require('../models/peliculas.model');
 
 class PeliculaController {
-    listar(req,res) {
-        //obtenemos datos del modelo
-        const peliculas = PeliculasModel.listar();
-        
-        // si el cliente pide JSON, se lo damos si no, renderizamos la web
-        if(req.accepts('json') && !req.accepts('html')) {
-            return res.json(peliculas);
-        }
-        res.render('peliculas', { peliculas });
-    }
+    listar(req, res) {
+    // Usamos .then() para esperar a que el modelo resuelva la promesa
+    PeliculasModel.listar()
+        .then(peliculas => {
+            // Una vez que llegan los datos, procedemos con la lógica
+            if(req.accepts('json') && !req.accepts('html')) {
+                return res.json(peliculas);
+            }
+            res.render('peliculas', { peliculas });
+        })
+        .catch(error => {
+            // Si algo falla, capturamos el error
+            console.error('Error al listar películas:', error);
+            res.status(500).send('Error interno al obtener las películas');
+        });
+}
 
     mostrarFormulario(req,res) {
         res.render('nueva-pelicula');

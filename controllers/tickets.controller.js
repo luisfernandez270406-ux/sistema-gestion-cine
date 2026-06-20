@@ -56,18 +56,20 @@ class TicketsController {
             res.status(400).json({ error: error.message });
         }
         }
-        filtrarPorFecha(req,res) {
-            try {
-                const { inicio, fin } = req.body;
-                const tickets = TicketsModel.filtrarPorFecha(inicio, fin);
-                if(req.accepts('json') && !req.accepts('html')) {
-                    return res.json(tickets);
-                }
-                res.render('tickets', { tickets });
-            } catch (error) {
-                res.status(400).json({ error: error.message });
-            }
+        filtrarPorFecha = async (req, res) => {
+    try {
+        const { inicio, fin } = req.query;
+        
+        const tickets = await TicketsModel.filtrarPorFecha(inicio, fin);
+        
+        if(req.accepts('json') && !req.accepts('html')) {
+            return res.json(tickets);
+        }
+        res.render('tickets', { tickets });
+    } catch (error) {
+        res.status(400).json({ error: error.message });
     }
+}
 
 
         async obtenerUltimosElementos(req,res) {

@@ -1,107 +1,66 @@
-const uuid = require('uuid');
-const db = require('../database/db');
+const { v4: uuidv4 } = require('uuid');
+const pool = require('../database/db');
 
 class TicketsModel {
-    listar() {
-        return db.tickets
-        
-    }
-    crear(datos) {
-        return new Promise((resolve, reject) => {
-            const reservacionExiste = db.reservaciones.find(r => r.id === datos.reservacionId);
-            if (!reservacionExiste) {
-                reject(new Error('La reservación no existe'));
-                return;
-            }
-            const ticket = {
-                id: uuid.v4(),
-                reservacionId: datos.reservacionId,
-                fechaCompra: datos.fechaCompra || new Date().toISOString(),
-                metodoPago: datos.metodoPago
-            };
-            db.tickets.push(ticket);
-            resolve(ticket);
-        });
-    }
-    editar(id, datos) {
-        return new Promise((resolve, reject) => {
-            const ticketIndex = db.tickets.findIndex(t => t.id === id);
-            if (ticketIndex === -1) {
-                reject(new Error('El ticket no existe'));
-                return;
-            }
-            db.tickets[ticketIndex] = { ...db.tickets[ticketIndex], ...datos };
-            resolve(db.tickets[ticketIndex]);
-        });
-    }
-    eliminar(id) {
-        return new Promise((resolve, reject) => {
-            const ticketIndex = db.tickets.findIndex(t => t.id === id);
-            if (ticketIndex === -1) {
-                reject(new Error('El ticket no existe'));
-                return;
-            }
-            db.tickets.splice(ticketIndex, 1);
-            resolve({ message: 'Ticket eliminado correctamente' });
-        });
-    }
-    obtenerDetalles(id) {
-        return new Promise((resolve, reject) => {
-            const ticket = db.tickets.find(t => t.id === id);
-            if (!ticket) {
-                reject(new Error('El ticket no existe'));
-                return;
-            }
-            const reservacion = db.reservaciones.find(r => r.id === ticket.reservacionId);
-            if (!reservacion) {
-                reject(new Error('La reservación asociada no existe'));
-                return;
-            }
-            const funcion = db.funciones.find(f => f.id === reservacion.funcionId);
-            if (!funcion) {
-                reject(new Error('La función asociada no existe'));
-                return;
-            }
-            const pelicula = db.peliculas.find(p => p.id === funcion.peliculaId);
-            if (!pelicula) {
-                reject(new Error('La película asociada no existe'));
-                return;
-            }
-            const sala = db.salas.find(s => s.id === funcion.salaId);
-            if (!sala) {
-                reject(new Error('La sala asociada no existe'));
-                return;
-            }
 
-            const datosFuncion = {
-                ...ticket,
-                cliente: reservacion.nombreCliente,
-                pelicula: pelicula.titulo,
-                sala: sala.nombre,
-                horario: funcion.horario,
-                total: funcion.precio * reservacion.cantidad
-            };
-            resolve(datosFuncion);
-        });
-    }
-    obtenerUltimosElementos(){
-        return db.tickets
-        .sort((a, b) => new Date(b.fechaCompra) - new Date(a.fechaCompra))
-        .slice(0,5);
+    static async listar() {
+        const [tickets] = await pool.query('SELECT * FROM tickets');
+        return tickets;
     }
 
-    filtrarPorFecha(inicio, fin) {
-    const fechaInicio = new Date(inicio).getTime();
-    const fechaFin = new Date(fin).getTime();
+    static async crear(datos) {
+        const { id_reservacion, metodo_pago } = datos;
+        const id = uuidv4();
+        // Eliminado codigo_ticket
+        const [resultado] = await pool.query(
+            'INSERT INTO tickets (id, id_reservacion, fecha_emision, metodo_pago) VALUES (?, ?, NOW(), ?)',
+            [id, id_reservacion, metodo_pago]
+        );
+        return { id, ...datos };
+    }
 
-    return db.tickets.filter(ticket => {
-        if (!ticket.fechaCompra) return false;
+    static async editar(id, datos) {
+        const { id_reservacion, metodo_pago } = datos;
+        // Eliminado codigo_ticket
+        const [resultado] = await pool.query(
+            'UPDATE tickets SET id_reservacion = ?, metodo_pago = ? WHERE id = ?',
+            [id_reservacion, metodo_pago, id]
+        );
+        return resultado;
+    }
 
-        const fechaCompra = new Date(ticket.fechaCompra).getTime();
-        
-        return fechaCompra >= fechaInicio && fechaCompra <= fechaFin;
-    });
+    static async eliminar(id) {
+        const [resultado] = await pool.query('DELETE FROM tickets WHERE id = ?', [id]);
+        return resultado;
+    }
+
+    static async obtenerDetalles(id) {
+        const query = `
+            SELECT t.*, r.nombre_cliente, p.titulo AS pelicula, s.nombre AS sala, f.horario, f.precio
+            FROM tickets t
+            JOIN reservaciones r ON t.id_reservacion = r.id
+            JOIN funciones f ON r.id_funcion = f.id
+            JOIN peliculas p ON f.id_pelicula = p.id
+            JOIN salas s ON f.id_sala = s.id
+            WHERE t.id = ?
+        `;
+        const [resultado] = await pool.query(query, [id]);
+        return resultado[0];
+    }
+
+    static async obtenerUltimosElementos() {
+        const [tickets] = await pool.query('SELECT * FROM tickets ORDER BY fecha_emision DESC LIMIT 5');
+        return tickets;
+    }
+
+    static async filtrarPorFecha(inicio, fin) {
+    const query = `
+        SELECT * FROM tickets 
+        WHERE DATE(fecha_emision) >= ? AND DATE(fecha_emision) <= ?
+    `;
+    const [tickets] = await pool.query(query, [inicio, fin]);
+    return tickets;
 }
 }
 
-module.exports = new TicketsModel();
+module.exports = TicketsModel;

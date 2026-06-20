@@ -11,7 +11,7 @@ router.put('/editar/:id', TicketsController.editar);
 //ruta para eliminar un ticket
 router.delete('/eliminar/:id', TicketsController.eliminar);
 //ruta para filtrar tickets por fecha
-router.post('/filtrar', TicketsController.filtrarPorFecha);
+router.get('/filtrar', TicketsController.filtrarPorFecha);
 //ruta para filtrar tickets por ultimos 5 
 router.get('/ultimos', TicketsController.obtenerUltimosElementos);
 //ruta para obtener detalles de un ticket
