@@ -97,13 +97,10 @@ class TicketsModel {
 
     // 2. Filtramos la base de datos
     return db.tickets.filter(ticket => {
-        // IMPORTANTE: Aseguramos que el campo fecha exista antes de procesarlo
         if (!ticket.fechaCompra) return false;
 
-        // 3. Convertimos la fecha de la DB a milisegundos
         const fechaCompra = new Date(ticket.fechaCompra).getTime();
         
-        // 4. Comparación numérica (la única que nunca falla)
         return fechaCompra >= fechaInicio && fechaCompra <= fechaFin;
     });
 }

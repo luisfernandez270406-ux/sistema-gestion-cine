@@ -1,5 +1,6 @@
 const express = require('express');
 const app = express();
+require('./database/db');
 
 //Configuración del motor de plantillas EJS
 app.set('view engine', 'ejs');
