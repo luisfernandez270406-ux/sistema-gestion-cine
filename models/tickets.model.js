@@ -91,11 +91,9 @@ class TicketsModel {
     }
 
     filtrarPorFecha(inicio, fin) {
-    // 1. Convertimos los inputs a milisegundos (limpios)
     const fechaInicio = new Date(inicio).getTime();
     const fechaFin = new Date(fin).getTime();
 
-    // 2. Filtramos la base de datos
     return db.tickets.filter(ticket => {
         if (!ticket.fechaCompra) return false;
 

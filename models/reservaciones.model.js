@@ -8,10 +8,8 @@ class ReservacionesModel {
     }
     listarDetallado() {
         return db.reservaciones.map(reserva => {
-            // buscamos la función correspondiente
             const funcion = db.funciones.find(f => f.id === reserva.funcionId);
             
-            // buscamos la película a través del ID de la función
             let nombrePelicula = "No encontrada";
             if (funcion) {
                 const pelicula = db.peliculas.find(p => p.id === funcion.peliculaId);
@@ -20,7 +18,6 @@ class ReservacionesModel {
                 }
             }
 
-            // retornamos la reservación con el nuevo campo agregado
             return {
                 ...reserva,
                 nombrePelicula: nombrePelicula
