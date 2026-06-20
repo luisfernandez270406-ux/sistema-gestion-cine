@@ -1,36 +1,55 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Agregar Película</title>
+    <title>Nueva Película</title>
+    <link rel="stylesheet" href="/css/styles.css">
 </head>
 <body>
-    <h1>Agregar Nueva Película</h1>
-    <form action="/peliculas" method="POST">
-        <label for="titulo">Título:</label>
-        <input type="text" id="titulo" name="titulo" required><br>
 
-        <label for="director">Director:</label>
-        <input type="text" id="director" name="director" required><br>
+<nav>
+    <div class="logo">🎬 CineManager</div>
 
-        <label for="anio">Año:</label>
-        <input type="number" id="anio" name="anio"><br>
+    <div class="nav-links">
+        <a href="/">Inicio</a>
+        <a href="/peliculas">Películas</a>
+        <a href="/reservaciones">Reservaciones</a>
+    </div>
+</nav>
 
-        <label for="genero">Género:</label>
-        <input type="text" id="genero" name="genero"><br>
+<div class="form-container">
 
-        <label for="duracion">Duración (min):</label>
-        <input type="number" id="duracion" name="duracion"><br>
+    <h1>Nueva Película</h1>
 
-        <label for="sinopsis">Sinopsis:</label><br>
-        <textarea id="sinopsis" name="sinopsis"></textarea><br>
+    <form action="/peliculas/crear" method="POST">
 
-        <button type="submit">Agregar Película</button>
+        <div class="form-group">
+            <label>Título</label>
+            <input type="text" name="titulo" required>
+        </div>
+
+        <div class="form-group">
+            <label>Género</label>
+            <input type="text" name="genero" required>
+        </div>
+
+        <div class="form-group">
+            <label>Duración</label>
+            <input type="text" name="duracion">
+        </div>
+
+        <div class="form-group">
+            <label>Clasificación</label>
+            <input type="text" name="clasificacion">
+        </div>
+
+        <button type="submit" class="btn">
+            Guardar
+        </button>
+
     </form>
 
-    <button onclick="window.location.href='/peliculas'">Volver a la Lista de Películas</button>
-    <button onclick="window.location.href='/'">Volver al Inicio</button>
-    
+</div>
+
 </body>
 </html>

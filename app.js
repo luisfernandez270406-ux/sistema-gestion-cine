@@ -6,6 +6,8 @@ require('./database/db');
 app.set('view engine', 'ejs');
 app.set('views', './views');
 
+app.use(express.static('public'));
+
 //Middlewares Necesarios para leer datos de formularios
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());

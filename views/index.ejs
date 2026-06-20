@@ -1,19 +1,83 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Sistema de Cine</title>
+    <link rel="stylesheet" href="/css/styles.css">
 </head>
 <body>
-    <h1>Bienvenido al Sistema de Cine</h1>
-<p>Gestiona tus películas y reservaciones desde aquí:</p>
 
-<ul>
-    <li><a href="/peliculas">Ver Películas</a></li>
-    <li><a href="/peliculas/nueva">Añadir Película</a></li>
-    <li><a href="/reservaciones">Ver Reservaciones</a></li>
-</ul>
-    
+<nav>
+    <div class="logo">
+         CineManager
+    </div>
+
+    <div class="nav-links">
+        <a href="/">Inicio</a>
+        <a href="/peliculas">Películas</a>
+        <a href="/reservaciones">Reservas</a>
+    </div>
+</nav>
+
+<section class="hero">
+
+    <div class="overlay">
+
+        <h1>Bienvenido a CineManager</h1>
+
+        <p>
+            Sistema de administración para la gestión
+            de películas y reservas.
+        </p>
+
+        <div class="botones">
+
+            <a href="/peliculas" class="btn">
+                Ver Películas
+            </a>
+
+            <a href="/reservaciones" class="btn-secundario">
+                Ver Reservas
+            </a>
+
+        </div>
+
+    </div>
+
+</section>
+<section class="modulos">
+
+    <h2>Módulos del Sistema</h2>
+
+    <div class="cards">
+
+        <div class="card">
+
+            <h3>Películas</h3>
+
+            <p>
+                Permite crear, editar, consultar
+                y eliminar películas registradas.
+            </p>
+
+        </div>
+
+        <div class="card">
+
+            <h3>Reservaciones</h3>
+
+            <p>
+                Permite administrar las reservaciones
+                realizadas por los clientes.
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+<footer>
+    CineManager © 2026
+</footer>
+
 </body>
 </html>

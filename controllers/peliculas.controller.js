@@ -70,6 +70,18 @@ class PeliculaController {
             });
         });
 }
+obtenerPorId(req, res) {
+    PeliculasModel.obtenerPorId(req.params.id)
+        .then(pelicula => {
+            if(req.accepts('json') && !req.accepts('html')) {
+                return res.json(pelicula);
+            }
+            res.render('editar-pelicula', { pelicula });
+        })
+        .catch(error => {
+            res.status(404).send('Película no encontrada');
+        });
+}
 
 }
 

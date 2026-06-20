@@ -1,21 +1,60 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lista de Películas</title>
+    <title>Películas</title>
+    <link rel="stylesheet" href="/css/styles.css">
 </head>
 <body>
-    <h1>Lista de Películas</h1>
-    <ul>
-        <% peliculas.forEach(pelicula => { %>
-            <li><strong><%= pelicula.titulo %></strong> - Director: <%= pelicula.director %>, Año: <%= pelicula.anio %>, Duración: <%= pelicula.duracion %> min, sinopsis: <%= pelicula.sinopsis %></li>
-        <% }) %>
-    </ul>
 
-    <button onclick="window.location.href='/peliculas/nueva'">Agregar Nueva Película</button>
-    <button onclick="window.location.href='/reservaciones'">Ver Reservaciones</button>
-    <button onclick="window.location.href='/'">Volver al Inicio</button>
+<nav>
+    <div class="logo">🎬 CineManager</div>
+
+    <div class="nav-links">
+        <a href="/">Inicio</a>
+        <a href="/peliculas">Películas</a>
+        <a href="/reservaciones">Reservaciones</a>
+    </div>
+</nav>
+
+<div class="container">
+
+    <div class="header-page">
+
+    <h1>Películas</h1>
+
+    <a href="/peliculas/nueva" class="btn">
+        + Nueva Película
+    </a>
+
+</div>
+
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Título</th>
+                <th>Género</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            <% peliculas.forEach(p => { %>
+                <tr>
+                    <td><%= p.id %></td>
+                    <td><%= p.titulo %></td>
+                    <td><%= p.genero %></td>
+                    <td class="acciones">
+                        <a href="/peliculas/editar/<%= p.id %>" class="btn-editar">Editar</a>
+                        <a href="/peliculas/eliminar/<%= p.id %>" class="btn-eliminar">Eliminar</a>
+                     </td>
+                </tr>
+            <% }) %>
+        </tbody>
+    </table>
+
+</div>
 
 </body>
 </html>

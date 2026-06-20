@@ -1,23 +1,56 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Reservaciones</title>
+    <link rel="stylesheet" href="/css/styles.css">
 </head>
 <body>
-    <ul>
-        <% reservaciones.forEach(reservacion => { %>
-            <li>
-                <strong>Cliente:</strong> <%= reservacion.nombreCliente %><br>
-                <strong>Cantidad de boletos:</strong> <%= reservacion.cantidad %><br>
-                <strong>Nombre de la Pelicula:</strong> <%= reservacion.nombrePelicula %>
-            </li>
-        <% }) %>
-    </ul>
 
-    <button onclick="window.location.href='/reservaciones/nueva'">Nueva Reservación</button>
-    <button onclick="window.location.href='/peliculas'">Volver a la Lista de Películas</button>
-    <button onclick="window.location.href='/'">Volver al Inicio</button>
+<nav>
+    <div class="logo">🎬 CineManager</div>
+
+    <div class="nav-links">
+        <a href="/">Inicio</a>
+        <a href="/peliculas">Películas</a>
+        <a href="/reservaciones">Reservaciones</a>
+    </div>
+</nav>
+
+<div class="container">
+
+    <h1>Reservaciones</h1>
+
+    <a href="/reservaciones/nueva" class="btn">
+        + Nueva Reservación
+    </a>
+
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Cliente</th>
+                <th>Asientos</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            <% reservaciones.forEach(r => { %>
+                <tr>
+                    <td><%= r.id %></td>
+                    <td><%= r.cliente %></td>
+                    <td><%= r.asientos %></td>
+                    <td>
+                        <a href="/reservaciones/editar/<%= r.id %>" class="btn-editar">Editar</a>
+                        <a href="/reservaciones/eliminar/<%= r.id %>" class="btn-eliminar">Eliminar</a>
+                    </td>
+                </tr>
+            <% }) %>
+        </tbody>
+    </table>
+
+</div>
+
 </body>
 </html>
