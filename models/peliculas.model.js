@@ -67,6 +67,15 @@ class PeliculasModel {
         throw error;
     }
 }
+static async tieneFunciones(id) {
+    const [rows] = await pool.query(
+        'SELECT COUNT(*) as total FROM funciones WHERE id_pelicula = ?',
+        [id]
+    );
+
+    return rows[0].total > 0;
+}
+
 }
 
 module.exports = PeliculasModel;

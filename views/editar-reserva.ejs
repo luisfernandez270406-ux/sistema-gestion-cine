@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Editar Reservación</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+
+<nav>
+    <div class="logo">🎬 CineManager</div>
+
+    <div class="nav-links">
+        <a href="/">Inicio</a>
+        <a href="/peliculas">Películas</a>
+        <a href="/reservaciones">Reservaciones</a>
+    </div>
+</nav>
+
+<div class="container">
+
+    <h1>Editar Reservación</h1>
+
+    <form action="/reservaciones/editar/<%= reserva.id %>?_method=PUT" method="POST">
+
+        <!-- Cliente -->
+        <input name="nombre_cliente" value="<%= reserva.nombre_cliente %>" placeholder="Nombre del cliente" required>
+
+        <!-- Asientos -->
+        <input name="cantidad_asientos" value="<%= reserva.cantidad_asientos %>" placeholder="Cantidad de asientos" required>
+
+        <!-- INFO DE FUNCION (NO SOLO ID) -->
+        <div style="margin: 10px 0; padding: 10px; background:#f4f4f4; border-radius:5px;">
+            <strong>Función actual:</strong><br>
+            Película: <%= reserva.titulo || 'N/A' %><br>
+            Sala: <%= reserva.sala || 'N/A' %><br>
+            Horario: <%= reserva.horario || 'N/A' %><br>
+            Precio: $<%= reserva.precio || 0 %>
+        </div>
+
+        <!-- Si quieres cambiar la función -->
+        <input name="id_funcion" value="<%= reserva.id_funcion %>" placeholder="ID de nueva función">
+
+        <button type="submit" class="btn">Actualizar</button>
+
+    </form>
+
+</div>
+
+</body>
+</html>

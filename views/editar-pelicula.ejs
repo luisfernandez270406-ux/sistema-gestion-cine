@@ -8,7 +8,7 @@
 <body>
 
 <nav>
-    <div class="logo">🎬 CineManager</div>
+    <div class="logo">CineManager</div>
 
     <div class="nav-links">
         <a href="/">Inicio</a>
@@ -21,7 +21,7 @@
 
     <h1>Editar Película</h1>
 
-    <form action="/peliculas/editar/<%= pelicula.id %>" method="POST">
+    <form action="/peliculas/editar/<%= pelicula.id %>?_method=PUT" method="POST">
 
         <input type="text" name="titulo" value="<%= pelicula.titulo %>" required>
         <input type="text" name="genero" value="<%= pelicula.genero %>" required>

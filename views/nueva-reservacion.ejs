@@ -2,49 +2,38 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Nueva Reservación</title>
+    <title>Nueva Reserva</title>
     <link rel="stylesheet" href="/css/styles.css">
 </head>
 <body>
 
 <nav>
-    <div class="logo">🎬 CineManager</div>
+    <div class="logo">CineManager</div>
 
     <div class="nav-links">
         <a href="/">Inicio</a>
-        <a href="/peliculas">Películas</a>
         <a href="/reservaciones">Reservaciones</a>
     </div>
 </nav>
 
-<div class="form-container">
+<div class="container">
 
     <h1>Nueva Reservación</h1>
 
-    <form action="/reservaciones/crear" method="POST">
+   <form action="/reservaciones" method="POST">
 
-        <div class="form-group">
-            <label>Cliente</label>
-            <input type="text" name="cliente" required>
-        </div>
+    <input name="nombre_cliente" placeholder="Nombre del cliente" required>
 
-        <div class="form-group">
-            <label>Asientos</label>
-            <input type="number" name="asientos" required>
-        </div>
+    <input name="cantidad_asientos" placeholder="Cantidad de asientos" required>
 
-        <div class="form-group">
-            <label>Fecha</label>
-            <input type="date" name="fecha">
-        </div>
+    <input name="id_funcion" placeholder="ID de la función" required>
 
-        <button type="submit" class="btn">
-            Guardar
-        </button>
+    <button type="submit">Crear reservación</button>
 
-    </form>
+</form>
 
 </div>
 
 </body>
+</html>
 </html>

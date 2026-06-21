@@ -8,7 +8,7 @@
 <body>
 
 <nav>
-    <div class="logo">🎬 CineManager</div>
+    <div class="logo">CineManager</div>
 
     <div class="nav-links">
         <a href="/">Inicio</a>
@@ -17,35 +17,20 @@
     </div>
 </nav>
 
-<div class="form-container">
+<div class="container">
 
     <h1>Nueva Película</h1>
 
-    <form action="/peliculas/crear" method="POST">
+    <form action="/peliculas" method="POST">
 
-        <div class="form-group">
-            <label>Título</label>
-            <input type="text" name="titulo" required>
-        </div>
+        <input name="titulo" placeholder="Título" required>
+        <input name="genero" placeholder="Género" required>
+        <input name="duracion" placeholder="Duración">
+        <input name="director" placeholder="Director">
+        <input name="anio" type="number" placeholder="Año">
+        <textarea name="sinopsis" placeholder="Sinopsis"></textarea>
 
-        <div class="form-group">
-            <label>Género</label>
-            <input type="text" name="genero" required>
-        </div>
-
-        <div class="form-group">
-            <label>Duración</label>
-            <input type="text" name="duracion">
-        </div>
-
-        <div class="form-group">
-            <label>Clasificación</label>
-            <input type="text" name="clasificacion">
-        </div>
-
-        <button type="submit" class="btn">
-            Guardar
-        </button>
+        <button type="submit" class="btn">Guardar</button>
 
     </form>
 

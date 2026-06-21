@@ -35,20 +35,50 @@ class ReservacionesController {
             res.status(400).json({ error: error.message });
         }
     }
-    async eliminar(req,res) {
-        try {
-            const resultado = await ReservacionesModel.eliminar(req.params.id);
-            if(req.accepts('json') && !req.accepts('html')) {
-                return res.json(resultado);
+    eliminar(req, res) {
+    const id = req.params.id;
+
+    ReservacionesModel.tieneTickets(id)
+        .then(tiene => {
+
+            if (tiene) {
+                return res.send(`
+                    <script>
+                        alert("No se puede eliminar: esta reservación tiene tickets asociados");
+                        window.location.href="/reservaciones";
+                    </script>
+                `);
             }
-            res.redirect('/reservaciones');
-        } catch (error) {
-            res.status(400).json({ error: error.message });
-        }
-    }
+
+            return ReservacionesModel.eliminar(id)
+                .then(() => res.redirect('/reservaciones'));
+        })
+        .catch(err => {
+            res.status(400).json({ error: err });
+        });
+}
     mostrarFormulario(req,res) {
         res.render('nueva-reservacion');
     }
+    obtenerPorId(req, res) {
+    ReservacionesModel.obtenerPorId(req.params.id)
+        .then(reserva => {
+
+            if (!reserva) {
+                return res.status(404).send('Reservación no encontrada');
+            }
+
+            if (req.accepts('json') && !req.accepts('html')) {
+                return res.json(reserva);
+            }
+
+            res.render('editar-reserva', { reserva });
+        })
+        .catch(error => {
+            console.error(error);
+            res.status(500).send('Error interno');
+        });
+}
 }
 
 module.exports = new ReservacionesController();

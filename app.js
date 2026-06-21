@@ -1,5 +1,6 @@
 const express = require('express');
 const app = express();
+const methodOverride = require('method-override');
 require('./database/db');
 
 //Configuración del motor de plantillas EJS
@@ -11,6 +12,11 @@ app.use(express.static('public'));
 //Middlewares Necesarios para leer datos de formularios
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
+
+app.use(methodOverride('_method'));
 
 // Ruta principal de prueba
 app.get('/', (req, res) => {

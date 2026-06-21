@@ -12,5 +12,7 @@ router.put('/editar/:id', ReservacionesController.editar);
 router.delete('/eliminar/:id', ReservacionesController.eliminar);
 //ruta para mostrar el formulario de nueva reservacion
 router.get('/nueva', ReservacionesController.mostrarFormulario);
+//ruta para obtener una reservacion por su ID (para mostrar el formulario de edición)
+router.get('/editar/:id', ReservacionesController.obtenerPorId);
 
 module.exports = router;

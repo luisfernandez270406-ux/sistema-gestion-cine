@@ -50,24 +50,26 @@ class PeliculaController {
         });
     }
     eliminar(req, res) {
-    PeliculasModel.eliminar(req.params.id)
-        .then(() => {
-            // Si la petición viene de Thunder Client (o pide JSON)
-            if (req.xhr || req.headers.accept?.includes('json') || req.accepts('json')) {
-                return res.status(200).json({ 
-                    error: false, 
-                    message: 'Película eliminada correctamente' 
-                });
+    const id = req.params.id;
+
+    PeliculasModel.tieneFunciones(id)
+        .then(tiene => {
+            if (tiene) {
+                return res.send(`
+                    <script>
+                        alert("No se puede eliminar: esta película tiene funciones asignadas");
+                        window.location.href = "/peliculas";
+                    </script>
+                `);
             }
-            // Si viene del navegador/formulario normal, redirecciona
-            res.redirect('/peliculas');
+
+            return PeliculasModel.eliminar(id)
+                .then(() => {
+                    res.redirect('/peliculas');
+                });
         })
         .catch(error => {
-            // Si ocurre un error, responde un JSON formateado con código 400 (Bad Request)
-            return res.status(400).json({ 
-                error: true, 
-                message: error 
-            });
+            res.status(400).json({ error });
         });
 }
 obtenerPorId(req, res) {
@@ -82,6 +84,7 @@ obtenerPorId(req, res) {
             res.status(404).send('Película no encontrada');
         });
 }
+
 
 }
 

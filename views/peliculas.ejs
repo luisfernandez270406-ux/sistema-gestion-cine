@@ -47,7 +47,11 @@
                     <td><%= p.genero %></td>
                     <td class="acciones">
                         <a href="/peliculas/editar/<%= p.id %>" class="btn-editar">Editar</a>
-                        <a href="/peliculas/eliminar/<%= p.id %>" class="btn-eliminar">Eliminar</a>
+                        <form action="/peliculas/eliminar/<%= p.id %>?_method=DELETE" method="POST" style="display:inline;">
+                            <button type="submit" class="btn-eliminar">
+                                Eliminar
+                            </button>
+                        </form>
                      </td>
                 </tr>
             <% }) %>
