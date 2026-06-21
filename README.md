@@ -5,8 +5,11 @@ Este sistema permite la administración integral de un cine, facilitando el cont
 ## 2. Requisitos Previos
 Para ejecutar el sistema en tu equipo, asegúrate de tener instalado:
 •	Node.js.
+
 •	Servidor MySQL: Se requiere un Sistema de Gestión de Base de Datos relacional activo. Puede utilizarse mediante distribuciones locales como XAMPP.
+
 •	Navegador Web Moderno: Google Chrome o cualquier navegador con soporte completo para renderizado HTML5 y ejecución de scripts.
+
 ## 3. Configuración e Inicialización de la Base de Datos
 Abra el panel de control de XAMPP e inicie los módulos de **Apache** y **MySQL** haciendo clic en el botón **Start** correspondiente a cada servicio, verificando que ambos se resalten en color verde
 ### 3.2 Acceso al Gestor
