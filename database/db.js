@@ -8,7 +8,7 @@ const pool = mysql.createPool({
 
 pool.getConnection()
     .then(connection => {
-        console.log('Conexion sql funcinal');
+        console.log('Conexion sql funcional');
         connection.release();
     })
     .catch(error => {

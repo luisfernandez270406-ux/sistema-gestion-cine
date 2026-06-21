@@ -8,7 +8,7 @@
 <body>
 
 <nav>
-    <div class="logo">🎬 CineManager</div>
+    <div class="logo">CineManager</div>
 
     <div class="nav-links">
         <a href="/">Inicio</a>
@@ -51,12 +51,12 @@
 
             <td class="acciones">
 
-                <!-- EDITAR -->
+                
                 <a href="/reservaciones/editar/<%= r.id %>" class="btn-editar">
                     Editar
                 </a>
 
-                <!-- ELIMINAR -->
+               
                 <form action="/reservaciones/eliminar/<%= r.id %>?_method=DELETE" method="POST" style="display:inline;">
                     <button type="submit" class="btn-eliminar">
                         Eliminar
