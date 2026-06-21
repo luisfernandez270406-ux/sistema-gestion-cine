@@ -4,6 +4,7 @@ Manual de Usuario: Sistema de Gestión de Cine
 Este sistema permite la administración integral de un cine, facilitando el control de películas, reservaciones, salas, tickets y funciones de manera organizada y eficiente.
 ## 2. Requisitos Previos
 Para ejecutar el sistema en tu equipo, asegúrate de tener instalado:
+
 •	Node.js.
 
 •	Servidor MySQL: Se requiere un Sistema de Gestión de Base de Datos relacional activo. Puede utilizarse mediante distribuciones locales como XAMPP.
