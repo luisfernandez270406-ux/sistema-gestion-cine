@@ -8,6 +8,7 @@ import salasRoutes from './routes/salas.js';
 import funcionesRoutes from './routes/funciones.js';
 import reservacionesRoutes from './routes/reservaciones.js';
 import ticketsRoutes from './routes/tickets.js';
+import usuariosRoutes from './routes/usuarios.js';
 
 //Configuración del motor de plantillas EJS
 app.set('view engine', 'ejs');
@@ -40,6 +41,8 @@ app.use('/funciones', funcionesRoutes);
 app.use('/reservaciones', reservacionesRoutes);
 //rutas de tickets
 app.use('/tickets', ticketsRoutes);
+//rutas de usuarios
+app.use('/usuarios', usuariosRoutes);
 
 //Iniciar el servidor\
 const PORT = process.env.PORT || 3000;
