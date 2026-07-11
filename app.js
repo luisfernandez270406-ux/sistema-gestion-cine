@@ -9,6 +9,12 @@ import funcionesRoutes from './routes/funciones.js';
 import reservacionesRoutes from './routes/reservaciones.js';
 import ticketsRoutes from './routes/tickets.js';
 import usuariosRoutes from './routes/usuarios.js';
+import peliculasApiRoutes from './routes/api/peliculas.api.js';
+import salasApiRoutes from './routes/api/salas.api.js';
+import funcionesApiRoutes from './routes/api/funciones.api.js';
+import reservacionesApiRoutes from './routes/api/reservaciones.api.js';
+import ticketsApiRoutes from './routes/api/tickets.api.js';
+import usuariosApiRoutes from './routes/api/usuarios.api.js';
 
 //Configuración del motor de plantillas EJS
 app.set('view engine', 'ejs');
@@ -32,17 +38,28 @@ app.get('/', (req, res) => {
 // Rutas de películas
 app.use('/peliculas', peliculasRoutes);
 
+app.use('/api/peliculas', peliculasApiRoutes);
+
 //rutas de salas
 app.use('/salas', salasRoutes);
 
+app.use('/api/salas', salasApiRoutes);
+
 //rutas de funciones
 app.use('/funciones', funcionesRoutes);
+
+app.use('/api/funciones', funcionesApiRoutes);
 //rutas de reservaciones
 app.use('/reservaciones', reservacionesRoutes);
+
+app.use('/api/reservaciones', reservacionesApiRoutes);
 //rutas de tickets
 app.use('/tickets', ticketsRoutes);
+
+app.use('/api/tickets', ticketsApiRoutes);
 //rutas de usuarios
 app.use('/usuarios', usuariosRoutes);
+app.use('/api/usuarios', usuariosApiRoutes);
 
 //Iniciar el servidor\
 const PORT = process.env.PORT || 3000;

@@ -17,6 +17,18 @@ class PeliculaController {
             res.status(500).send('Error interno al obtener las películas');
         });
 }
+    listarApi(req, res) {
+    // Usamos .then() para esperar a que el modelo resuelva la promesa
+    PeliculasModel.listar()
+        .then(peliculas => {
+            res.json(peliculas);})
+        .catch(error => {
+            // Si algo falla, capturamos el error
+            console.error('Error al listar películas:', error);
+            res.status(500).json({ error: 'Error interno al obtener las películas' });
+        });
+}
+
 
     mostrarFormulario(req,res) {
         res.render('nueva-pelicula');
@@ -34,6 +46,15 @@ class PeliculaController {
             res.status(400).send({ error });// mostrar error
         });
     }
+    crearApi(req,res) {
+        PeliculasModel.crear(req.body)
+        .then(nuevaPelicula => {
+                return res.status(201).json(nuevaPelicula);
+        })
+        .catch(error => {
+            res.status(400).json({ error });// mostrar error
+        });
+    }
     editar(req,res) {
         PeliculasModel.editar(req.params.id, req.body)
         .then(peliculaActualizada => {
@@ -49,6 +70,33 @@ class PeliculaController {
             res.status(404).send({ error });
         });
     }
+    editarApi(req,res) {
+        PeliculasModel.editar(req.params.id, req.body)
+        .then(peliculaActualizada => {
+                return res.json(peliculaActualizada);
+        })
+        .catch(error => {
+            res.status(404).json({ error });
+        });
+    }
+    eliminarApi(req, res) {
+    const id = req.params.id;
+
+    PeliculasModel.tieneFunciones(id)
+        .then(tiene => {
+            if (tiene) {
+                return res.status(400).json({ error: 'No se puede eliminar: esta película tiene funciones asignadas' }  );
+            }
+
+            return PeliculasModel.eliminar(id)
+                .then(() => {
+                    res.json({ message: 'Película eliminada correctamente' });
+                });
+        })
+        .catch(error => {
+            res.status(400).json({ error });
+        });
+}
     eliminar(req, res) {
     const id = req.params.id;
 
@@ -84,7 +132,17 @@ obtenerPorId(req, res) {
             res.status(404).send('Película no encontrada');
         });
 }
-
+obtenerPorIdApi(req,res){
+    PeliculasModel.obtenerPorId(req.params.id)
+    .then(pelicula=>{
+        res.json(pelicula);
+    })
+    .catch(error=>{
+        res.status(404).json({
+            error:"Película no encontrada"
+        });
+    });
+}
 
 }
 
