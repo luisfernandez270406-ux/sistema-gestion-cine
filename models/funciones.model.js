@@ -1,4 +1,3 @@
-import { v4 as uuidv4 } from 'uuid';
 import pool from '../database/db.js'; 
 
 class FuncionesModel {
@@ -14,12 +13,11 @@ class FuncionesModel {
 
     static async crear(datos) {
         try {
-            const id = uuidv4();
             const { id_pelicula, id_sala, horario, precio } = datos; 
             
             const [resultado] = await pool.query(
-                'INSERT INTO funciones (id, id_pelicula, id_sala, horario, precio) VALUES (?, ?, ?, ?, ?)', 
-                [id, id_pelicula, id_sala, horario, precio]
+                'INSERT INTO funciones (id_pelicula, id_sala, horario, precio) VALUES (?, ?, ?, ?)', 
+                [id_pelicula, id_sala, horario, precio]
             );
             return resultado;
         } catch (error) {

@@ -1,4 +1,3 @@
-import { v4 as uuidv4 } from 'uuid';
 import pool from '../database/db.js'; 
 
 class SalasModel {
@@ -14,12 +13,11 @@ class SalasModel {
 
     static async crear(datosSala) {
         try {
-            const id = uuidv4();
             const { nombre, capacidad, tipo } = datosSala;
             
             const [resultado] = await pool.query(
-                'INSERT INTO salas (id, nombre, capacidad, tipo) VALUES (?, ?, ?, ?)', 
-                [id, nombre, capacidad, tipo]
+                'INSERT INTO salas (nombre, capacidad, tipo) VALUES (?, ?, ?)', 
+                [nombre, capacidad, tipo]
             );
             return resultado;
         } catch (error) {

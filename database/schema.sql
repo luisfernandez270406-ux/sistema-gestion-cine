@@ -5,7 +5,7 @@ USE sistema_cine;
 
 -- 1. Tablas independientes (sin llaves foráneas todavía)
 CREATE TABLE peliculas (
-    id VARCHAR(36) PRIMARY KEY,
+    id INT AUTO_INCREMENT PRIMARY KEY,
     titulo VARCHAR(255),
     genero VARCHAR(100),
     duracion INT,
@@ -15,7 +15,7 @@ CREATE TABLE peliculas (
 );
 
 CREATE TABLE salas (
-    id VARCHAR(36) PRIMARY KEY,
+    id INT AUTO_INCREMENT PRIMARY KEY,
     nombre VARCHAR(100),
     capacidad INT,
     tipo VARCHAR(50)
@@ -23,9 +23,9 @@ CREATE TABLE salas (
 
 -- 2. Tablas con llaves foráneas
 CREATE TABLE funciones (
-    id VARCHAR(36) PRIMARY KEY,
-    id_pelicula VARCHAR(36),
-    id_sala VARCHAR(36),
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    id_pelicula INT,
+    id_sala INT,
     horario DATETIME,
     precio DECIMAL(10,2),
     FOREIGN KEY (id_pelicula) REFERENCES peliculas(id),
@@ -33,17 +33,16 @@ CREATE TABLE funciones (
 );
 
 CREATE TABLE reservaciones (
-    id VARCHAR(36) PRIMARY KEY,
-    id_funcion VARCHAR(36),
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    id_funcion INT,
     nombre_cliente VARCHAR(150),
     cantidad_asientos INT,
     FOREIGN KEY (id_funcion) REFERENCES funciones(id)
 );
 
 CREATE TABLE tickets (
-    id VARCHAR(36) PRIMARY KEY,
-    id_reservacion VARCHAR(36),
-    codigo_ticket VARCHAR(50),
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    id_reservacion INT,
     fecha_emision TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     metodo_pago VARCHAR(50),
     FOREIGN KEY (id_reservacion) REFERENCES reservaciones(id)

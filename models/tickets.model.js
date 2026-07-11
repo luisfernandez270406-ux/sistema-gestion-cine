@@ -10,13 +10,12 @@ class TicketsModel {
 
     static async crear(datos) {
         const { id_reservacion, metodo_pago } = datos;
-        const id = uuidv4();
         // Eliminado codigo_ticket
         const [resultado] = await pool.query(
-            'INSERT INTO tickets (id, id_reservacion, fecha_emision, metodo_pago) VALUES (?, ?, NOW(), ?)',
-            [id, id_reservacion, metodo_pago]
+            'INSERT INTO tickets (id_reservacion, fecha_emision, metodo_pago) VALUES (?, NOW(), ?)',
+            [id_reservacion, metodo_pago]
         );
-        return { id, ...datos };
+        return { id: resultado.insertId, ...datos };
     }
 
     static async editar(id, datos) {
@@ -26,12 +25,12 @@ class TicketsModel {
             'UPDATE tickets SET id_reservacion = ?, metodo_pago = ? WHERE id = ?',
             [id_reservacion, metodo_pago, id]
         );
-        return resultado;
+        return { id, ...datos };
     }
 
     static async eliminar(id) {
         const [resultado] = await pool.query('DELETE FROM tickets WHERE id = ?', [id]);
-        return resultado;
+        return { id, ...resultado };
     }
 
     static async obtenerDetalles(id) {
