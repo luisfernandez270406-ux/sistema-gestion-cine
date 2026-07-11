@@ -1,4 +1,4 @@
-const ReservacionesModel = require('../models/reservaciones.model');
+import ReservacionesModel from '../models/reservaciones.model.js';
 
 class ReservacionesController {
     async listar(req,res) {
@@ -81,4 +81,4 @@ class ReservacionesController {
 }
 }
 
-module.exports = new ReservacionesController();
+export default new ReservacionesController();

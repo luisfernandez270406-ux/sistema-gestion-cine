@@ -1,6 +1,6 @@
-const express = require('express');
+import express from 'express';
 const router = express.Router();
-const ReservacionesController = require('../controllers/reservaciones.controller');
+import ReservacionesController from '../controllers/reservaciones.controller.js';
 
 //ruta para listar las reservaciones
 router.get('/', ReservacionesController.listar);
@@ -15,4 +15,4 @@ router.get('/nueva', ReservacionesController.mostrarFormulario);
 //ruta para obtener una reservacion por su ID (para mostrar el formulario de edición)
 router.get('/editar/:id', ReservacionesController.obtenerPorId);
 
-module.exports = router;
+export default router;

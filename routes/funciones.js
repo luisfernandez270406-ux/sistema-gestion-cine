@@ -1,6 +1,6 @@
-const express = require('express');
+import express from 'express';
 const router = express.Router();
-const FuncionesController = require('../controllers/funciones.controller');
+import FuncionesController from '../controllers/funciones.controller.js';
 
 // ruta para listar las funciones
 router.get('/', FuncionesController.listar);
@@ -11,4 +11,4 @@ router.put('/editar/:id', FuncionesController.editar);
 // ruta para eliminar funciones
 router.delete('/eliminar/:id', FuncionesController.eliminar);
 
-module.exports = router;
+export default router;

@@ -1,4 +1,4 @@
-const PeliculasModel = require('../models/peliculas.model');
+import PeliculasModel from '../models/peliculas.model.js';
 
 class PeliculaController {
     listar(req, res) {
@@ -88,4 +88,4 @@ obtenerPorId(req, res) {
 
 }
 
-module.exports = new PeliculaController();
+export default new PeliculaController();

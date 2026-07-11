@@ -1,5 +1,5 @@
-const pool = require('../database/db');
-const { v4: uuidv4 } = require('uuid');
+import { v4 as uuidv4 } from 'uuid';
+import pool from '../database/db.js'; 
 
 class ReservacionesModel {
   
@@ -92,4 +92,4 @@ static async tieneTickets(id) {
 
 }
 
-module.exports = ReservacionesModel;
+export default ReservacionesModel;

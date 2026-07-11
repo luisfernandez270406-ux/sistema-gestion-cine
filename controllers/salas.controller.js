@@ -1,4 +1,4 @@
-const SalasModel = require('../models/salas.model');
+import SalasModel from '../models/salas.model.js';
 
 class SalasController {
     listar(req, res) {
@@ -56,4 +56,4 @@ class SalasController {
     }
 }
 
-module.exports = new SalasController();
+export default new SalasController();

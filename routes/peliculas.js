@@ -1,6 +1,6 @@
-const express = require('express');
+import express from 'express';
 const router = express.Router();
-const PeliculasController = require('../controllers/peliculas.controller');
+import PeliculasController from '../controllers/peliculas.controller.js';
 
 
 // Ruta para listar todas las películas
@@ -17,4 +17,4 @@ router.get('/editar/:id', PeliculasController.obtenerPorId);
 router.delete('/eliminar/:id', PeliculasController.eliminar);
 
 
-module.exports = router;
+export default router;

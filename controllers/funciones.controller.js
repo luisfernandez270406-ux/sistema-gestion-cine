@@ -1,4 +1,4 @@
-const FuncionesModel = require('../models/funciones.model');
+import FuncionesModel from '../models/funciones.model.js';
 
 class FuncionesController {
     async listar(req,res) {
@@ -49,4 +49,4 @@ class FuncionesController {
 
 }
 
-module.exports = new FuncionesController();
+export default new FuncionesController();

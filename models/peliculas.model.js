@@ -1,5 +1,5 @@
-const { v4: uuidv4 } = require('uuid');
-const pool = require('../database/db');
+import { v4 as uuidv4 } from 'uuid';
+import pool from'../database/db.js';
 
 
 class PeliculasModel {
@@ -78,4 +78,4 @@ static async tieneFunciones(id) {
 
 }
 
-module.exports = PeliculasModel;
+export default PeliculasModel;

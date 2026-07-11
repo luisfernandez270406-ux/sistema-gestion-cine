@@ -1,4 +1,4 @@
-const TicketsModel = require('../models/tickets.model');
+import TicketsModel from '../models/tickets.model.js';
 
 class TicketsController {
     async listar(req,res) {
@@ -83,4 +83,4 @@ class TicketsController {
 
 }
 
-module.exports = new TicketsController();
+export default new TicketsController();

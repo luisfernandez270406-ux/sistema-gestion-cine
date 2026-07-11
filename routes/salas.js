@@ -1,6 +1,6 @@
-const express = require('express');
+import express from 'express';
 const router = express.Router();
-const SalasController = require('../controllers/salas.controller');
+import SalasController from '../controllers/salas.controller.js';
 
 // ruta para listar la salas
 router.get('/', SalasController.listar);
@@ -10,4 +10,4 @@ router.post('/', SalasController.crear);
 router.put('/editar/:id', SalasController.editar);
 // ruta para eliminar salas
 router.delete('/eliminar/:id', SalasController.eliminar);
-module.exports = router;
+export default router;

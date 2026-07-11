@@ -1,6 +1,6 @@
-const express = require('express');
+import express from 'express';
 const router = express.Router();
-const TicketsController = require('../controllers/tickets.controller');
+import TicketsController from '../controllers/tickets.controller.js';
 
 //ruta para listar los tickets
 router.get('/', TicketsController.listar);
@@ -19,4 +19,4 @@ router.get('/detalles/:id', TicketsController.obtenerDetalles);
 
 
 
-module.exports = router;
+export default router;

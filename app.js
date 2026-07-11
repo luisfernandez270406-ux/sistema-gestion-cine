@@ -1,7 +1,12 @@
-const express = require('express');
+import express from 'express';
 const app = express();
-const methodOverride = require('method-override');
-require('./database/db');
+import methodOverride from 'method-override';
+import './database/db.js';
+import peliculasRoutes from './routes/peliculas.js';
+import salasRoutes from './routes/salas.js';
+import funcionesRoutes from './routes/funciones.js';
+import reservacionesRoutes from './routes/reservaciones.js';
+import ticketsRoutes from './routes/tickets.js';
 
 //Configuración del motor de plantillas EJS
 app.set('view engine', 'ejs');
@@ -23,17 +28,17 @@ app.get('/', (req, res) => {
     res.render('index'); 
 });
 // Rutas de películas
-app.use('/peliculas', require('./routes/peliculas'));
+app.use('/peliculas', peliculasRoutes);
 
 //rutas de salas
-app.use('/salas', require('./routes/salas'));
+app.use('/salas', salasRoutes);
 
 //rutas de funciones
-app.use('/funciones', require('./routes/funciones'));
+app.use('/funciones', funcionesRoutes);
 //rutas de reservaciones
-app.use('/reservaciones', require('./routes/reservaciones'));
+app.use('/reservaciones', reservacionesRoutes);
 //rutas de tickets
-app.use('/tickets', require('./routes/tickets'));
+app.use('/tickets', ticketsRoutes);
 
 //Iniciar el servidor\
 const PORT = 3000;
