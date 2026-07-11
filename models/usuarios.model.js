@@ -1,4 +1,5 @@
 import pool from '../database/db.js';
+import bcrypt from "bcrypt";
 
 class UsuariosModel {
     static async listar() {
@@ -14,9 +15,10 @@ class UsuariosModel {
     static async crear(datosUsuario) {
         try {
             const { nombre, usuario, password, correo } = datosUsuario;
+            const passwordHash = await bcrypt.hash(password, 10);
             const [resultado] = await pool.query(
                 'INSERT INTO usuarios (nombre, usuario, password, correo) VALUES (?, ?, ?, ?)',
-                [nombre, usuario, password, correo]
+                [nombre, usuario, passwordHash, correo]
             );
             return { id: resultado.insertId, nombre, usuario, correo };
         }

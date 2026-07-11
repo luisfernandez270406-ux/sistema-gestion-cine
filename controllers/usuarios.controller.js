@@ -14,6 +14,10 @@ class UsuariosController {
     }
     async crear(req,res) {
         try {
+            const usuarioExistente = await UsuariosModel.obtenerPorUsuario(req.body.usuario);
+            if (usuarioExistente) {
+                return res.status(400).json({ error: 'El nombre de usuario ya está en uso' });
+            }
             const nuevoUsuario = await UsuariosModel.crear(req.body);
             if(req.accepts('json') && !req.accepts('html')) {
                 return res.status(201).json(nuevoUsuario);
