@@ -1,6 +1,8 @@
 import express from 'express';
 const router = express.Router();
 import PeliculasController from '../controllers/peliculas.controller.js';
+import { verificarToken } from '../middleware/auth.js';
+import { verificarRol } from '../middleware/role.js';
 
 
 // Ruta para listar todas las películas
@@ -14,7 +16,7 @@ router.put('/editar/:id', PeliculasController.editar);
 // FORM EDITAR
 router.get('/editar/:id', PeliculasController.obtenerPorId);
 // ruta para eliminar una película
-router.delete('/eliminar/:id', PeliculasController.eliminar);
+router.delete('/eliminar/:id', verificarToken, verificarRol('admin'), PeliculasController.eliminar);
 
 
 export default router;

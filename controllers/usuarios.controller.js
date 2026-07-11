@@ -61,7 +61,8 @@ class UsuariosController {
             if (!coincide) {
                 return res.status(400).json({ error: 'Usuario o contraseña incorrectos' });
             }
-            res.json({ message: 'Login exitoso', usuario: usuarioExistente, rol: usuarioExistente.rol });
+            const token = generarToken(usuarioExistente);
+            res.json({ message: 'Login exitoso', token, usuario: { id: usuarioExistente.id, usuario: usuarioExistente.usuario, rol: usuarioExistente.rol } });
         } catch (error) {
             res.status(400).json({ error: error.message });
         }
