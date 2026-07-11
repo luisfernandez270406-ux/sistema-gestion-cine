@@ -11,5 +11,7 @@ router.post("/", usuariosController.crear);
 router.get("/:id", usuariosController.obtenerPorId);
 //ruta para eliminar un usuario
 router.delete("/eliminar/:id", usuariosController.eliminar);
+//ruta login de usuario
+router.post("/login", usuariosController.login);
 
 export default router;

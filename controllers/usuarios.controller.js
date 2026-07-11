@@ -1,4 +1,5 @@
 import UsuariosModel from "../models/usuarios.model.js";
+import bcrypt from "bcrypt";
 
 class UsuariosController {
     async listar(req,res) {
@@ -48,8 +49,24 @@ class UsuariosController {
         } catch (error) {
             res.status(400).json({ error: error.message });
         }
-    }    
-    
+    } 
+    async login(req,res) {
+        try {
+            const { usuario, password } = req.body;
+            const usuarioExistente = await UsuariosModel.obtenerPorUsuario(usuario);
+            if (!usuarioExistente) {
+                return res.status(400).json({ error: 'Usuario o contraseña incorrectos' });
+            }
+            const coincide = await bcrypt.compare(password, usuarioExistente.password);
+            if (!coincide) {
+                return res.status(400).json({ error: 'Usuario o contraseña incorrectos' });
+            }
+            res.json({ message: 'Login exitoso', usuario: usuarioExistente, rol: usuarioExistente.rol });
+        } catch (error) {
+            res.status(400).json({ error: error.message });
+        }
+    }
+
 }
 
 export default new UsuariosController();
