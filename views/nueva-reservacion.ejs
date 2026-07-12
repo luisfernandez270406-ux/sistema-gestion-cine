@@ -35,9 +35,6 @@
 
         </div>
 
-        
-        
-
     <% } else { %>
 
     <div class="usuario-info">
@@ -55,62 +52,43 @@
 
     <h1>Nueva Reservación</h1>
 
-   <form action="/reservaciones" method="POST">
+    <form action="/reservaciones" method="POST">
 
-    <% if(usuario && usuario.rol === "cliente"){ %>
+        <label>Cliente</label>
+        <select name="id_usuario" required>
+            <option value="">Seleccione un cliente</option>
+            <% clientes.forEach(c => { %>
+                <option value="<%= c.id %>"><%= c.nombre %> (<%= c.usuario %>)</option>
+            <% }) %>
+        </select>
 
-<input
-    type="hidden"
-    name="nombre_cliente"
-    value="<%= usuario.usuario %>"
->
+        <label>Cantidad de asientos</label>
+        <input name="cantidad_asientos" type="number" min="1" placeholder="Cantidad de asientos" required>
 
-<input
-    type="text"
-    value="<%= usuario.usuario %>"
-    disabled
->
+        <label>Función</label>
+        <select name="id_funcion" required>
+            <option value="">Seleccione una función</option>
+            <% funciones.forEach(funcion => { %>
+                <option value="<%= funcion.id %>">
+                    <%= funcion.titulo %>
+                    -
+                    <%= funcion.sala %>
+                    -
+                    <%= funcion.horario %>
+                    -
+                    $<%= funcion.precio %>
+                </option>
+            <% }) %>
+        </select>
+        <div>
+            <p><br></p>
+        </div>
 
-<% } else { %>
+        <button type="submit" class="btn">Crear reservación</button>
 
-<input
-    name="nombre_cliente"
-    placeholder="Nombre del cliente"
-    required
->
-
-<% } %>
-
-    <input name="cantidad_asientos" placeholder="Cantidad de asientos" required>
-
-    <select name="id_funcion" required>
-
-    <option value="">Seleccione una función</option>
-
-    <% funciones.forEach(funcion => { %>
-
-        <option value="<%= funcion.id %>">
-
-            <%= funcion.titulo %>
-            -
-            <%= funcion.sala %>
-            -
-            <%= funcion.horario %>
-            -
-            $<%= funcion.precio %>
-
-        </option>
-
-    <% }) %>
-
-</select>
-
-    <button type="submit">Crear reservación</button>
-
-</form>
+    </form>
 
 </div>
 
 </body>
-</html>
 </html>

@@ -16,6 +16,10 @@
         <a href="/peliculas">Películas</a>
         <a href="/reservaciones">Reservas</a>
         <a href="/funciones">Funciones</a>
+        <% if (usuario && (usuario.rol === 'admin' || usuario.rol === 'empleado')) { %>
+            <a href="/productos">Productos</a>
+            <a href="/ventas">Ventas</a>
+        <% } %>
     </div>
     <% if(usuario){ %>
 
@@ -33,9 +37,6 @@
             </a>
 
         </div>
-
-        
-        
 
     <% } else { %>
 
@@ -67,9 +68,15 @@
                 Ver Películas
             </a>
 
-            <a href="/reservaciones" class="btn-secundario">
-                Ver Reservas
-            </a>
+            <% if (usuario) { %>
+                <a href="/reservaciones" class="btn-secundario">
+                    Ver Reservas
+                </a>
+            <% } else { %>
+                <a href="/usuarios/login" class="btn-secundario">
+                    Iniciar Sesión
+                </a>
+            <% } %>
 
         </div>
 
@@ -82,27 +89,52 @@
 
     <div class="cards">
 
-        <div class="card">
-
+        <a href="/peliculas" class="card card-link">
             <h3>Películas</h3>
-
             <p>
-                Permite crear, editar, consultar
-                y eliminar películas registradas.
+                <% if (usuario && (usuario.rol === 'admin' || usuario.rol === 'empleado')) { %>
+                    Crea, edita, consulta y elimina películas registradas.
+                <% } else { %>
+                    Consulta la cartelera disponible.
+                <% } %>
             </p>
+        </a>
 
-        </div>
-
-        <div class="card">
-
-            <h3>Reservaciones</h3>
-
+        <a href="/funciones" class="card card-link">
+            <h3>Funciones</h3>
             <p>
-                Permite administrar las reservaciones
-                realizadas por los clientes.
+                <% if (usuario && (usuario.rol === 'admin' || usuario.rol === 'empleado')) { %>
+                    Programa horarios y gestiona la cartelera.
+                <% } else { %>
+                    Consulta horarios y funciones disponibles.
+                <% } %>
             </p>
+        </a>
 
-        </div>
+        <% if (usuario) { %>
+            <a href="/reservaciones" class="card card-link">
+                <h3>Reservaciones</h3>
+                <p>
+                    <% if (usuario.rol === 'cliente') { %>
+                        Consulta tus propias reservaciones.
+                    <% } else { %>
+                        Administra las reservaciones de los clientes.
+                    <% } %>
+                </p>
+            </a>
+        <% } %>
+
+        <% if (usuario && (usuario.rol === 'admin' || usuario.rol === 'empleado')) { %>
+            <a href="/productos" class="card card-link">
+                <h3>Productos</h3>
+                <p>Gestiona dulcería y productos disponibles para la venta.</p>
+            </a>
+
+            <a href="/ventas" class="card card-link">
+                <h3>Ventas</h3>
+                <p>Registra ventas de productos y consulta el historial.</p>
+            </a>
+        <% } %>
 
     </div>
 

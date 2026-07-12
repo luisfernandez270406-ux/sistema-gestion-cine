@@ -32,7 +32,7 @@ class VentasController {
             const productos = await ProductosModel.listar();
             const usuarios = await UsuariosModel.listar();
             const clientes = usuarios.filter(u => u.rol === 'cliente');
-            res.render('nueva-venta', { productos, clientes });
+            res.render('nueva-venta', { productos, clientes, error: req.query.error });
         } catch (error) {
             res.status(500).json({ error: error.message });
         }
@@ -46,8 +46,12 @@ class VentasController {
             }
             res.redirect('/ventas');
         } catch (error) {
-            // Aqui llegan errores como "Stock insuficiente" o "El producto no existe"
-            res.status(400).json({ error: error.message });
+            if (req.accepts('json') && !req.accepts('html')) {
+                return res.status(400).json({ error: error.message });
+            }
+            // Regresa al formulario con el mensaje de error legible,
+            // en vez de mostrarle JSON crudo al navegador.
+            res.redirect(`/ventas/nuevo?error=${encodeURIComponent(error.message)}`);
         }
     }
 

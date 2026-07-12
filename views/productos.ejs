@@ -17,6 +17,10 @@
         <a href="/peliculas">Películas</a>
         <a href="/reservaciones">Reservas</a>
         <a href="/funciones">Funciones</a>
+        <% if (usuario && (usuario.rol === 'admin' || usuario.rol === 'empleado')) { %>
+            <a href="/productos">Productos</a>
+            <a href="/ventas">Ventas</a>
+        <% } %>
     </div>
     <% if(usuario){ %>
 
@@ -35,9 +39,6 @@
 
         </div>
 
-        
-        
-
     <% } else { %>
 
     <div class="usuario-info">
@@ -55,7 +56,10 @@
 
     <div class="header-page">
         <h1>Productos</h1>
+        <% if (usuario && (usuario.rol === 'admin')) { %>
         <a href="/productos/nuevo" class="btn">+ Nuevo Producto</a>
+        <% } %>
+        
     </div>
 
     <table>

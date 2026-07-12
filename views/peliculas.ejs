@@ -17,6 +17,10 @@
         <a href="/peliculas">Películas</a>
         <a href="/reservaciones">Reservas</a>
         <a href="/funciones">Funciones</a>
+        <% if (usuario && (usuario.rol === 'admin' || usuario.rol === 'empleado')) { %>
+            <a href="/productos">Productos</a>
+            <a href="/ventas">Ventas</a>
+        <% } %>
     </div>
     <% if(usuario){ %>
 
@@ -35,9 +39,6 @@
 
         </div>
 
-        
-        
-
     <% } else { %>
 
     <div class="usuario-info">
@@ -55,13 +56,15 @@
 
     <div class="header-page">
 
-    <h1>Películas</h1>
+        <h1>Películas</h1>
 
-    <a href="/peliculas/nueva" class="btn">
-        + Nueva Película
-    </a>
+        <% if (usuario && usuario.rol === 'admin') { %>
+            <a href="/peliculas/nueva" class="btn">
+                + Nueva Película
+            </a>
+        <% } %>
 
-</div>
+    </div>
 
     <table>
         <thead>
@@ -69,7 +72,9 @@
                 <th>ID</th>
                 <th>Título</th>
                 <th>Género</th>
-                <th>Acciones</th>
+                <% if (usuario && (usuario.rol === 'admin' || usuario.rol === 'empleado')) { %>
+                    <th>Acciones</th>
+                <% } %>
             </tr>
         </thead>
 
@@ -79,14 +84,20 @@
                     <td><%= p.id %></td>
                     <td><%= p.titulo %></td>
                     <td><%= p.genero %></td>
-                    <td class="acciones">
-                        <a href="/peliculas/editar/<%= p.id %>" class="btn-editar">Editar</a>
-                        <form action="/peliculas/eliminar/<%= p.id %>?_method=DELETE" method="POST" style="display:inline;">
-                            <button type="submit" class="btn-eliminar">
-                                Eliminar
-                            </button>
-                        </form>
-                     </td>
+
+                    <% if (usuario && (usuario.rol === 'admin' || usuario.rol === 'empleado')) { %>
+                        <td class="acciones">
+                            <a href="/peliculas/editar/<%= p.id %>" class="btn-editar">Editar</a>
+
+                            <% if (usuario.rol === 'admin') { %>
+                                <form action="/peliculas/eliminar/<%= p.id %>?_method=DELETE" method="POST" style="display:inline;">
+                                    <button type="submit" class="btn-eliminar">
+                                        Eliminar
+                                    </button>
+                                </form>
+                            <% } %>
+                        </td>
+                    <% } %>
                 </tr>
             <% }) %>
         </tbody>

@@ -17,12 +17,14 @@
         <a href="/peliculas">Películas</a>
         <a href="/reservaciones">Reservas</a>
         <a href="/funciones">Funciones</a>
+        <% if (usuario && (usuario.rol === 'admin' || usuario.rol === 'empleado')) { %>
+            <a href="/productos">Productos</a>
+            <a href="/ventas">Ventas</a>
+        <% } %>
     </div>
-
     <% if(usuario){ %>
 
         <div class="usuario-info">
-
             <span class="rol <%= usuario.rol %>">
                  <%= usuario.rol %>
             </span>
@@ -39,16 +41,15 @@
 
     <% } else { %>
 
-        <div class="usuario-info">
+    <div class="usuario-info">
 
-            <a href="/usuarios/login" class="btn-login">
-                Iniciar sesión
-            </a>
+        <a href="/usuarios/login" class="btn-login">
+            Iniciar sesión
+        </a>
 
-        </div>
+    </div>
 
-    <% } %>
-
+<% } %>
 </nav>
 
 <div class="container">

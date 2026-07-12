@@ -1,44 +1,41 @@
 import ReservacionesModel from '../models/reservaciones.model.js';
-import FuncionesModel from "../models/funciones.model.js";
+import FuncionesModel from '../models/funciones.model.js';
+import UsuariosModel from '../models/usuarios.model.js';
 
 class ReservacionesController {
+
+    // Si es cliente, solo ve las suyas. Si es admin/empleado, ve todas.
     async listar(req,res) {
         try {
-            // await = perate un momentico
-            let idUsuario = null
-            if (req.usuario.rol === "cliente") {
-                idUsuario = req.usuario.id
-            }
-            const reservaciones = await ReservacionesModel.listarDetallado(idUsuario);
+            const filtroUsuario = (req.usuario && req.usuario.rol === 'cliente')
+                ? req.usuario.id
+                : null;
+
+            const reservaciones = await ReservacionesModel.listarDetallado(filtroUsuario);
             if(req.accepts('json') && !req.accepts('html')) {
                 return res.json(reservaciones);
             } 
-            res.render('reservaciones', { reservaciones });
+            res.render('reservaciones', { reservaciones, usuario: req.usuario });
         } catch (error) {
             res.status(500).json({ error: error.message });
         }
     }
-    
+
     async listarApi(req, res) {
         try {
-            let idUsuario = null
-            if (req.usuario.rol === "cliente"){
-                idUsuario = req.usuario.id
-            }
-            const reservaciones = await ReservacionesModel.listarDetallado(idUsuario);
+            const filtroUsuario = (req.usuario && req.usuario.rol === 'cliente')
+                ? req.usuario.id
+                : null;
+
+            const reservaciones = await ReservacionesModel.listarDetallado(filtroUsuario);
             return res.json(reservaciones);
         } catch (error) {
             res.status(500).json({ error: error.message });
         }
     }
-    
+
     async crear(req,res) {
         try {
-
-            if(req.usuario.rol === "cliente") {
-                req.body.id_usuario = req.usuario.id;
-                req.body.nombre_cliente = req.usuario.usuario;
-            }
             const nuevaReservacion = await ReservacionesModel.crear(req.body);
             if(req.accepts('json') && !req.accepts('html')) {
                 return res.status(201).json(nuevaReservacion);
@@ -50,10 +47,6 @@ class ReservacionesController {
     }
     async crearApi(req, res) {
         try {
-            if(req.usuario.rol === "cliente") {
-                req.body.id_usuario = req.usuario.id;
-                req.body.nombre_cliente = req.usuario.usuario;
-            }
             const nuevaReservacion = await ReservacionesModel.crear(req.body);
             return res.status(201).json(nuevaReservacion);
         } catch (error) {
@@ -80,36 +73,35 @@ class ReservacionesController {
         }
     }
     eliminar(req, res) {
-    const id = req.params.id;
-
-    ReservacionesModel.tieneTickets(id)
-        .then(tiene => {
-
-            if (tiene) {
-                return res.send(`
-                    <script>
-                        alert("No se puede eliminar: esta reservación tiene tickets asociados");
-                        window.location.href="/reservaciones";
-                    </script>
-                `);
-            }
-
-            return ReservacionesModel.eliminar(id)
-                .then(() => res.redirect('/reservaciones'));
-        })
-        .catch(err => {
-            res.status(400).json({ error: err });
-        });
-}
-eliminarApi(req, res) {
         const id = req.params.id;
- 
+
+        ReservacionesModel.tieneTickets(id)
+            .then(tiene => {
+                if (tiene) {
+                    return res.send(`
+                        <script>
+                            alert("No se puede eliminar: esta reservación tiene tickets asociados");
+                            window.location.href="/reservaciones";
+                        </script>
+                    `);
+                }
+
+                return ReservacionesModel.eliminar(id)
+                    .then(() => res.redirect('/reservaciones'));
+            })
+            .catch(err => {
+                res.status(400).json({ error: err });
+            });
+    }
+    eliminarApi(req, res) {
+        const id = req.params.id;
+
         ReservacionesModel.tieneTickets(id)
             .then(tiene => {
                 if (tiene) {
                     return res.status(400).json({ error: 'No se puede eliminar: esta reservación tiene tickets asociados' });
                 }
- 
+
                 return ReservacionesModel.eliminar(id)
                     .then(() => res.json({ message: 'Reservación eliminada correctamente' }));
             })
@@ -117,45 +109,37 @@ eliminarApi(req, res) {
                 res.status(400).json({ error: err });
             });
     }
-    
-    async mostrarFormulario(req, res) {
 
-    try {
+    async mostrarFormulario(req,res) {
+        try {
+            const funciones = await FuncionesModel.listar();
+            const usuarios = await UsuariosModel.listar();
+            const clientes = usuarios.filter(u => u.rol === 'cliente');
 
-        const funciones = await FuncionesModel.listarDetallado();
-
-        res.render("nueva-reservacion", {
-            usuario: req.usuario,
-            funciones
-        });
-
-    } catch (error) {
-
-        console.error(error);
-        res.status(500).send("Error al cargar el formulario");
-
+            res.render('nueva-reservacion', { funciones, clientes });
+        } catch (error) {
+            res.status(500).json({ error: error.message });
+        }
     }
-
-}
     obtenerPorId(req, res) {
-    ReservacionesModel.obtenerPorId(req.params.id)
-        .then(reserva => {
+        ReservacionesModel.obtenerPorId(req.params.id)
+            .then(reserva => {
 
-            if (!reserva) {
-                return res.status(404).send('Reservación no encontrada');
-            }
+                if (!reserva) {
+                    return res.status(404).send('Reservación no encontrada');
+                }
 
-            if (req.accepts('json') && !req.accepts('html')) {
-                return res.json(reserva);
-            }
+                if (req.accepts('json') && !req.accepts('html')) {
+                    return res.json(reserva);
+                }
 
-            res.render('editar-reserva', { reserva });
-        })
-        .catch(error => {
-            console.error(error);
-            res.status(500).send('Error interno');
-        });
-}   
+                res.render('editar-reserva', { reserva });
+            })
+            .catch(error => {
+                console.error(error);
+                res.status(500).send('Error interno');
+            });
+    }
     obtenerPorIdApi(req, res) {
         ReservacionesModel.obtenerPorId(req.params.id)
             .then(reserva => {
@@ -168,7 +152,6 @@ eliminarApi(req, res) {
                 res.status(500).json({ error: error.message });
             });
     }
-
 
 }
 

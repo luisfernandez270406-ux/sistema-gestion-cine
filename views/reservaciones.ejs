@@ -17,6 +17,10 @@
         <a href="/peliculas">Películas</a>
         <a href="/reservaciones">Reservas</a>
         <a href="/funciones">Funciones</a>
+        <% if (usuario && (usuario.rol === 'admin' || usuario.rol === 'empleado')) { %>
+            <a href="/productos">Productos</a>
+            <a href="/ventas">Ventas</a>
+        <% } %>
     </div>
     <% if(usuario){ %>
 
@@ -35,9 +39,6 @@
 
         </div>
 
-        
-        
-
     <% } else { %>
 
     <div class="usuario-info">
@@ -55,52 +56,53 @@
 
     <div class="header-page">
         <h1>Reservaciones</h1>
-        <a href="/reservaciones/nueva" class="btn">Nueva Reserva</a>
+        <% if (usuario && (usuario.rol === 'admin' || usuario.rol === 'empleado')) { %>
+            <a href="/reservaciones/nueva" class="btn">Nueva Reserva</a>
+        <% } %>
     </div>
 
     <table>
         <thead>
-    <tr>
-        <th>ID</th>
-        <th>Cliente</th>
-        <th>Asientos</th>
-        <th>Película</th>
-        <th>Sala</th>
-        <th>Horario</th>
-        <th>Precio</th>
-        <th>Acciones</th>
-    </tr>
-</thead>
+            <tr>
+                <th>ID</th>
+                <th>Cliente</th>
+                <th>Asientos</th>
+                <th>Película</th>
+                <th>Sala</th>
+                <th>Horario</th>
+                <th>Precio</th>
+                <% if (usuario && (usuario.rol === 'admin' || usuario.rol === 'empleado')) { %>
+                    <th>Acciones</th>
+                <% } %>
+            </tr>
+        </thead>
 
-<tbody>
-    <% reservaciones.forEach(r => { %>
-        <tr>
-            <td><%= r.id %></td>
-            <td><%= r.nombre_cliente %></td>
-            <td><%= r.cantidad_asientos %></td>
-            <td><%= r.titulo %></td>
-            <td><%= r.sala %></td>
-            <td><%= r.horario %></td>
-            <td><%= r.precio %></td>
+        <tbody>
+            <% reservaciones.forEach(r => { %>
+                <tr>
+                    <td><%= r.id %></td>
+                    <td><%= r.nombre_cliente %></td>
+                    <td><%= r.cantidad_asientos %></td>
+                    <td><%= r.titulo %></td>
+                    <td><%= r.sala %></td>
+                    <td><%= r.horario %></td>
+                    <td><%= r.precio %></td>
 
-            <td class="acciones">
-
-                
-                <a href="/reservaciones/editar/<%= r.id %>" class="btn-editar">
-                    Editar
-                </a>
-
-               
-                <form action="/reservaciones/eliminar/<%= r.id %>?_method=DELETE" method="POST" style="display:inline;">
-                    <button type="submit" class="btn-eliminar">
-                        Eliminar
-                    </button>
-                </form>
-
-            </td>
-        </tr>
-    <% }) %>
-</tbody>
+                    <% if (usuario && (usuario.rol === 'admin' || usuario.rol === 'empleado')) { %>
+                        <td class="acciones">
+                            <a href="/reservaciones/editar/<%= r.id %>" class="btn-editar">
+                                Editar
+                            </a>
+                            <form action="/reservaciones/eliminar/<%= r.id %>?_method=DELETE" method="POST" style="display:inline;">
+                                <button type="submit" class="btn-eliminar">
+                                    Eliminar
+                                </button>
+                            </form>
+                        </td>
+                    <% } %>
+                </tr>
+            <% }) %>
+        </tbody>
     </table>
 
 </div>

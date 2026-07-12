@@ -10,7 +10,7 @@ router.get('/', PeliculasController.listar);
 // Ruta para crear una nueva película
 router.post('/',verificarToken, verificarRol("admin"),PeliculasController.crear);
 // ruta formulario de nueva pelicula
-router.get('/nueva', verificarToken, verificarRol("admin","empleado"),PeliculasController.mostrarFormulario);
+router.get('/nueva', verificarToken, verificarRol("admin"),PeliculasController.mostrarFormulario);
 // ruta para editar una película
 router.put('/editar/:id', verificarToken, verificarRol("admin","empleado"),PeliculasController.editar);
 // FORM EDITAR
