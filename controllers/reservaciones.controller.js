@@ -1,4 +1,5 @@
 import ReservacionesModel from '../models/reservaciones.model.js';
+import FuncionesModel from "../models/funciones.model.js";
 
 class ReservacionesController {
     async listar(req,res) {
@@ -117,9 +118,25 @@ eliminarApi(req, res) {
             });
     }
     
-    mostrarFormulario(req,res) {
-        res.render('nueva-reservacion');
+    async mostrarFormulario(req, res) {
+
+    try {
+
+        const funciones = await FuncionesModel.listarDetallado();
+
+        res.render("nueva-reservacion", {
+            usuario: req.usuario,
+            funciones
+        });
+
+    } catch (error) {
+
+        console.error(error);
+        res.status(500).send("Error al cargar el formulario");
+
     }
+
+}
     obtenerPorId(req, res) {
     ReservacionesModel.obtenerPorId(req.params.id)
         .then(reserva => {

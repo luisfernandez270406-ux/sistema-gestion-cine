@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Películas</title>
+    <title>Productos</title>
     <link rel="stylesheet" href="/css/styles.css">
 </head>
 <body>
@@ -54,39 +54,38 @@
 <div class="container">
 
     <div class="header-page">
-
-    <h1>Películas</h1>
-
-    <a href="/peliculas/nueva" class="btn">
-        + Nueva Película
-    </a>
-
-</div>
+        <h1>Productos</h1>
+        <a href="/productos/nuevo" class="btn">+ Nuevo Producto</a>
+    </div>
 
     <table>
         <thead>
             <tr>
                 <th>ID</th>
-                <th>Título</th>
-                <th>Género</th>
+                <th>Nombre</th>
+                <th>Precio</th>
+                <th>Stock</th>
+                <th>Activo</th>
                 <th>Acciones</th>
             </tr>
         </thead>
 
         <tbody>
-            <% peliculas.forEach(p => { %>
+            <% productos.forEach(p => { %>
                 <tr>
                     <td><%= p.id %></td>
-                    <td><%= p.titulo %></td>
-                    <td><%= p.genero %></td>
+                    <td><%= p.nombre %></td>
+                    <td>$<%= p.precio %></td>
+                    <td><%= p.stock %></td>
+                    <td><%= p.activo ? 'Sí' : 'No' %></td>
                     <td class="acciones">
-                        <a href="/peliculas/editar/<%= p.id %>" class="btn-editar">Editar</a>
-                        <form action="/peliculas/eliminar/<%= p.id %>?_method=DELETE" method="POST" style="display:inline;">
+                        <a href="/productos/editar/<%= p.id %>" class="btn-editar">Editar</a>
+                        <form action="/productos/eliminar/<%= p.id %>?_method=DELETE" method="POST" style="display:inline;">
                             <button type="submit" class="btn-eliminar">
                                 Eliminar
                             </button>
                         </form>
-                     </td>
+                    </td>
                 </tr>
             <% }) %>
         </tbody>

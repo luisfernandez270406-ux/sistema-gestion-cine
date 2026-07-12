@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Editar Venta</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+
+<nav>
+        <div class="logo">
+         CineManager
+        </div>
+
+        <div class="nav-links">
+            <a href="/">Inicio</a>
+            <a href="/peliculas">Películas</a>
+            <a href="/reservaciones">Reservas</a>
+            <a href="/funciones">Funciones</a>
+        </div>
+        <% if(usuario){ %>
+
+        <div class="usuario-info">
+            <span class="rol <%= usuario.rol %>">
+                 <%= usuario.rol %>
+            </span>
+
+            <span class="usuario-nombre">
+                 <%= usuario.usuario %>
+            </span>
+
+            <a href="/usuarios/logout" class="logout">
+                Cerrar sesión
+            </a>
+
+        </div>
+
+        
+        
+
+    <% } else { %>
+
+    <div class="usuario-info">
+
+        <a href="/usuarios/login" class="btn-login">
+            Iniciar sesión
+        </a>
+
+    </div>
+
+<% } %>
+    </nav>
+
+<div class="container">
+
+    <h1>Editar Venta</h1>
+
+    <form action="/ventas/editar/<%= venta.id %>?_method=PUT" method="POST">
+
+        <label>Cliente</label>
+        <select name="id_usuario" required>
+            <% clientes.forEach(c => { %>
+                <option value="<%= c.id %>" <%= c.id === venta.id_usuario ? 'selected' : '' %>>
+                    <%= c.nombre %> (<%= c.usuario %>)
+                </option>
+            <% }) %>
+        </select>
+
+        <label>Producto</label>
+        <select name="id_producto" required>
+            <% productos.forEach(p => { %>
+                <option value="<%= p.id %>" <%= p.id === venta.id_producto ? 'selected' : '' %>>
+                    <%= p.nombre %> - $<%= p.precio %> (stock: <%= p.stock %>)
+                </option>
+            <% }) %>
+        </select>
+
+        <label>Cantidad</label>
+        <input type="number" name="cantidad" min="1" value="<%= venta.cantidad %>" required>
+
+        <p style="margin-top:10px; color:#666;">
+            Total actual: $<%= venta.total %>
+            (editar la cantidad aquí NO recalcula el total ni ajusta el stock)
+        </p>
+
+        <button type="submit" class="btn">Guardar</button>
+
+    </form>
+
+</div>
+
+</body>
+</html>

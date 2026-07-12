@@ -16,6 +16,7 @@
         <a href="/">Inicio</a>
         <a href="/peliculas">Películas</a>
         <a href="/reservaciones">Reservas</a>
+        <a href="/funciones">Funciones</a>
     </div>
     <% if(usuario){ %>
 
@@ -56,27 +57,53 @@
 
    <form action="/reservaciones" method="POST">
 
-    <% if (usuario && usuario.rol === "cliente") { %>
+    <% if(usuario && usuario.rol === "cliente"){ %>
 
-    <input
-        type="text"
-        value="<%= usuario.usuario %>"
-        disabled
-    >
+<input
+    type="hidden"
+    name="nombre_cliente"
+    value="<%= usuario.usuario %>"
+>
+
+<input
+    type="text"
+    value="<%= usuario.usuario %>"
+    disabled
+>
 
 <% } else { %>
 
-    <input
-        name="nombre_cliente"
-        placeholder="Nombre del cliente"
-        required
-    >
+<input
+    name="nombre_cliente"
+    placeholder="Nombre del cliente"
+    required
+>
 
 <% } %>
 
     <input name="cantidad_asientos" placeholder="Cantidad de asientos" required>
 
-    <input name="id_funcion" placeholder="ID de la función" required>
+    <select name="id_funcion" required>
+
+    <option value="">Seleccione una función</option>
+
+    <% funciones.forEach(funcion => { %>
+
+        <option value="<%= funcion.id %>">
+
+            <%= funcion.titulo %>
+            -
+            <%= funcion.sala %>
+            -
+            <%= funcion.horario %>
+            -
+            $<%= funcion.precio %>
+
+        </option>
+
+    <% }) %>
+
+</select>
 
     <button type="submit">Crear reservación</button>
 

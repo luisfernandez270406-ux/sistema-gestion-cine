@@ -15,7 +15,11 @@ import funcionesApiRoutes from './routes/api/funciones.api.js';
 import reservacionesApiRoutes from './routes/api/reservaciones.api.js';
 import ticketsApiRoutes from './routes/api/tickets.api.js';
 import usuariosApiRoutes from './routes/api/usuarios.api.js';
+import productosRoutes from './routes/productos.js';
+import productosApiRoutes from './routes/api/productos.api.js';
 import cookieParser from "cookie-parser";
+import ventasRoutes from './routes/ventas.js';
+import ventasApiRoutes from './routes/api/ventas.api.js';
 import jwt from "jsonwebtoken";
 
 
@@ -94,6 +98,12 @@ app.use('/api/tickets', ticketsApiRoutes);
 //rutas de usuarios
 app.use('/usuarios', usuariosRoutes);
 app.use('/api/usuarios', usuariosApiRoutes);
+//rutas de productos 
+app.use('/productos', productosRoutes);
+app.use('/api/productos', productosApiRoutes);
+//rutas de ventas
+app.use('/ventas', ventasRoutes);
+app.use('/api/ventas', ventasApiRoutes);
 
 //Iniciar el servidor\
 const PORT = process.env.PORT || 3000;

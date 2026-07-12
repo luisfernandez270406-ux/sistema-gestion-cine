@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Nueva Película</title>
+    <title>Editar Producto</title>
     <link rel="stylesheet" href="/css/styles.css">
 </head>
 <body>
@@ -51,18 +51,27 @@
 <% } %>
 </nav>
 
-<div class="container">
+<div class="form-container">
 
-    <h1>Nueva Película</h1>
+    <h1>Editar Producto</h1>
 
-    <form action="/peliculas" method="POST">
+    <form action="/productos/editar/<%= producto.id %>?_method=PUT" method="POST">
 
-        <input name="titulo" placeholder="Título" required>
-        <input name="genero" placeholder="Género" required>
-        <input name="duracion" placeholder="Duración">
-        <input name="director" placeholder="Director">
-        <input name="anio" type="number" placeholder="Año">
-        <textarea name="sinopsis" placeholder="Sinopsis"></textarea>
+        <input type="text" name="nombre" value="<%= producto.nombre %>" required>
+        <textarea name="descripcion"><%= producto.descripcion %></textarea>
+        <input type="number" step="0.01" name="precio" value="<%= producto.precio %>" required>
+        <input type="number" name="stock" value="<%= producto.stock %>" required>
+
+        <div style="margin: 10px 0;">
+            <label>
+                <input type="radio" name="activo" value="true" <%= producto.activo ? 'checked' : '' %>>
+                Activo
+            </label>
+            <label style="margin-left: 15px;">
+                <input type="radio" name="activo" value="false" <%= !producto.activo ? 'checked' : '' %>>
+                Inactivo
+            </label>
+        </div>
 
         <button type="submit" class="btn">Guardar</button>
 

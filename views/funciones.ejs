@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Funciones</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+
+<nav>
+    <div class="logo">
+         CineManager
+    </div>
+
+    <div class="nav-links">
+        <a href="/">Inicio</a>
+        <a href="/peliculas">Películas</a>
+        <a href="/reservaciones">Reservas</a>
+        <a href="/funciones">Funciones</a>
+    </div>
+
+    <% if(usuario){ %>
+
+        <div class="usuario-info">
+
+            <span class="rol <%= usuario.rol %>">
+                 <%= usuario.rol %>
+            </span>
+
+            <span class="usuario-nombre">
+                 <%= usuario.usuario %>
+            </span>
+
+            <a href="/usuarios/logout" class="logout">
+                Cerrar sesión
+            </a>
+
+        </div>
+
+    <% } else { %>
+
+        <div class="usuario-info">
+
+            <a href="/usuarios/login" class="btn-login">
+                Iniciar sesión
+            </a>
+
+        </div>
+
+    <% } %>
+
+</nav>
+
+<div class="container">
+
+    <div class="header-page">
+
+        <h1>Funciones</h1>
+
+        <% if(usuario && usuario.rol !== "cliente"){ %>
+
+            <a href="/funciones/nueva" class="btn">
+                + Nueva Función
+            </a>
+
+        <% } %>
+
+    </div>
+
+    <table>
+
+        <thead>
+
+            <tr>
+
+                <th>ID</th>
+
+                <th>Película</th>
+
+                <th>Sala</th>
+
+                <th>Horario</th>
+
+                <th>Precio</th>
+
+                <% if(usuario && usuario.rol !== "cliente"){ %>
+
+                    <th>Acciones</th>
+
+                <% } %>
+
+            </tr>
+
+        </thead>
+
+        <tbody>
+
+            <% funciones.forEach(f => { %>
+
+                <tr>
+
+                    <td><%= f.id %></td>
+
+                    <td><%= f.titulo %></td>
+
+                    <td><%= f.sala %></td>
+
+                    <td><%= f.horario %></td>
+
+                    <td>$<%= f.precio %></td>
+
+                    <% if(usuario && usuario.rol !== "cliente"){ %>
+
+                    <td class="acciones">
+
+                        <a href="/funciones/editar/<%= f.id %>" class="btn-editar">
+                            Editar
+                        </a>
+
+                        <form action="/funciones/eliminar/<%= f.id %>?_method=DELETE"
+                              method="POST"
+                              style="display:inline;">
+
+                            <button type="submit" class="btn-eliminar">
+
+                                Eliminar
+
+                            </button>
+
+                        </form>
+
+                    </td>
+
+                    <% } %>
+
+                </tr>
+
+            <% }) %>
+
+        </tbody>
+
+    </table>
+
+</div>
+
+</body>
+</html>

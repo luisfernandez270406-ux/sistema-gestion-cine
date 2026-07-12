@@ -2,23 +2,23 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Películas</title>
+    <title>Ventas</title>
     <link rel="stylesheet" href="/css/styles.css">
 </head>
 <body>
 
 <nav>
-    <div class="logo">
+        <div class="logo">
          CineManager
-    </div>
+        </div>
 
-    <div class="nav-links">
-        <a href="/">Inicio</a>
-        <a href="/peliculas">Películas</a>
-        <a href="/reservaciones">Reservas</a>
-        <a href="/funciones">Funciones</a>
-    </div>
-    <% if(usuario){ %>
+        <div class="nav-links">
+            <a href="/">Inicio</a>
+            <a href="/peliculas">Películas</a>
+            <a href="/reservaciones">Reservas</a>
+            <a href="/funciones">Funciones</a>
+        </div>
+        <% if(usuario){ %>
 
         <div class="usuario-info">
             <span class="rol <%= usuario.rol %>">
@@ -49,44 +49,45 @@
     </div>
 
 <% } %>
-</nav>
+    </nav>
 
 <div class="container">
 
     <div class="header-page">
-
-    <h1>Películas</h1>
-
-    <a href="/peliculas/nueva" class="btn">
-        + Nueva Película
-    </a>
-
-</div>
+        <h1>Ventas</h1>
+        <a href="/ventas/nuevo" class="btn">+ Nueva Venta</a>
+    </div>
 
     <table>
         <thead>
             <tr>
                 <th>ID</th>
-                <th>Título</th>
-                <th>Género</th>
+                <th>Producto</th>
+                <th>Cliente</th>
+                <th>Cantidad</th>
+                <th>Total</th>
+                <th>Fecha</th>
                 <th>Acciones</th>
             </tr>
         </thead>
 
         <tbody>
-            <% peliculas.forEach(p => { %>
+            <% ventas.forEach(v => { %>
                 <tr>
-                    <td><%= p.id %></td>
-                    <td><%= p.titulo %></td>
-                    <td><%= p.genero %></td>
+                    <td><%= v.id %></td>
+                    <td><%= v.producto %></td>
+                    <td><%= v.usuario %></td>
+                    <td><%= v.cantidad %></td>
+                    <td>$<%= v.total %></td>
+                    <td><%= v.fecha %></td>
                     <td class="acciones">
-                        <a href="/peliculas/editar/<%= p.id %>" class="btn-editar">Editar</a>
-                        <form action="/peliculas/eliminar/<%= p.id %>?_method=DELETE" method="POST" style="display:inline;">
+                        <a href="/ventas/editar/<%= v.id %>" class="btn-editar">Editar</a>
+                        <form action="/ventas/eliminar/<%= v.id %>?_method=DELETE" method="POST" style="display:inline;">
                             <button type="submit" class="btn-eliminar">
                                 Eliminar
                             </button>
                         </form>
-                     </td>
+                    </td>
                 </tr>
             <% }) %>
         </tbody>

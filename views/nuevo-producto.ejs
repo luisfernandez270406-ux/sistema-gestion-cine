@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Nueva Película</title>
+    <title>Nuevo Producto</title>
     <link rel="stylesheet" href="/css/styles.css">
 </head>
 <body>
@@ -53,16 +53,25 @@
 
 <div class="container">
 
-    <h1>Nueva Película</h1>
+    <h1>Nuevo Producto</h1>
 
-    <form action="/peliculas" method="POST">
+    <form action="/productos" method="POST">
 
-        <input name="titulo" placeholder="Título" required>
-        <input name="genero" placeholder="Género" required>
-        <input name="duracion" placeholder="Duración">
-        <input name="director" placeholder="Director">
-        <input name="anio" type="number" placeholder="Año">
-        <textarea name="sinopsis" placeholder="Sinopsis"></textarea>
+        <input name="nombre" placeholder="Nombre" required>
+        <textarea name="descripcion" placeholder="Descripción"></textarea>
+        <input name="precio" type="number" step="0.01" placeholder="Precio" required>
+        <input name="stock" type="number" placeholder="Stock inicial" required>
+
+        <div style="margin: 10px 0;">
+            <label>
+                <input type="radio" name="activo" value="true" checked>
+                Activo
+            </label>
+            <label style="margin-left: 15px;">
+                <input type="radio" name="activo" value="false">
+                Inactivo
+            </label>
+        </div>
 
         <button type="submit" class="btn">Guardar</button>
 

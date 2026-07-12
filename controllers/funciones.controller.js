@@ -1,12 +1,12 @@
 import FuncionesModel from '../models/funciones.model.js';
+import PeliculasModel from "../models/peliculas.model.js";
+import SalasModel from "../models/salas.model.js";
 
 class FuncionesController {
     async listar(req,res) {
         try {
-            const funciones = await FuncionesModel.listar();
-            if(req.accepts('json') && !req.accepts('html')) {
-                return res.json(funciones);
-            }
+            const funciones =  await FuncionesModel.listarDetallado();
+                res.render("funciones",{funciones,usuario:req.usuario});
         } catch (error) {
             res.status(500).json({ error: error.message });
         }
@@ -62,17 +62,42 @@ class FuncionesController {
             res.status(400).json({ error: error.message });
         }
     }
-    async eliminar(req,res) {
-        try {
-            const funcionEliminada = await FuncionesModel.eliminar(req.params.id);
-            if(req.accepts('json') && !req.accepts('html')) {
-                return res.json({ message: 'Función eliminada correctamente' });
+   async eliminar(req, res) {
+
+    const id = req.params.id;
+
+    FuncionesModel.tieneReservaciones(id)
+
+        .then(tiene => {
+
+            if (tiene) {
+
+                return res.send(`
+                    <script>
+                        alert("No se puede eliminar: esta función tiene reservaciones asociadas.");
+                        window.location.href="/funciones";
+                    </script>
+                `);
+
             }
-            res.redirect('/funciones');
-        } catch (error) {
-            res.status(400).json({ error: error.message });
-        }
-    }
+
+            return FuncionesModel.eliminar(id)
+
+                .then(() => {
+
+                    res.redirect("/funciones");
+
+                });
+
+        })
+
+        .catch(error => {
+
+            res.status(400).json({ error });
+
+        });
+
+}
 
     async eliminarApi(req, res) {
         try {
@@ -82,6 +107,58 @@ class FuncionesController {
             res.status(400).json({ error: error.message });
         }
     }
+async mostrarFormulario(req, res) {
+    try {
+        const peliculas = await PeliculasModel.listar();
+        const salas = await SalasModel.listar();
+
+        res.render("nueva-funcion", {
+            peliculas,
+            salas,
+            usuario: req.usuario
+        });
+
+    } catch (error) {
+        console.error(error);
+        res.status(500).send("Error al cargar el formulario.");
+    }
+}
+async obtenerPorId(req, res) {
+
+    try {
+
+        const funcion = await FuncionesModel.obtenerPorId(req.params.id);
+
+        const peliculas = await PeliculasModel.listar();
+
+        const salas = await SalasModel.listar();
+
+        res.render("editar-funcion", {
+
+            funcion,
+
+            peliculas,
+
+            salas,
+
+            usuario: req.usuario
+
+        });
+
+    } catch (error) {
+
+        res.status(500).json({
+
+            error: error.message
+
+        });
+
+    }
+
+}
+
+
+
 }
 
 
