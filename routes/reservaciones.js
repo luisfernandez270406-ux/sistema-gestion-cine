@@ -5,7 +5,7 @@ import { verificarToken } from '../middleware/auth.js';
 import { verificarRol } from '../middleware/role.js';
 
 //ruta para listar las reservaciones
-router.get('/', ReservacionesController.listar);
+router.get('/', verificarToken, verificarRol("admin","empleado","cliente"),ReservacionesController.listar);
 //ruta para crear una nueva reservacion
 router.post('/', ReservacionesController.crear);
 //ruta para editar una reservacion

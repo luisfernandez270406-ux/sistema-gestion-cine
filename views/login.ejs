@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Iniciar Sesión</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+
+<nav>
+    <div class="logo">
+         CineManager
+    </div>
+
+    <div class="nav-links">
+        <a href="/">Inicio</a>
+        <a href="/peliculas">Películas</a>
+        <a href="/reservaciones">Reservas</a>
+    </div>
+    <% if(usuario){ %>
+
+        <div class="usuario-info">
+            <span class="rol <%= usuario.rol %>">
+                 <%= usuario.rol %>
+            </span>
+
+            <span class="usuario-nombre">
+                 <%= usuario.usuario %>
+            </span>
+
+            <a href="/usuarios/logout" class="logout">
+                Cerrar sesión
+            </a>
+
+        </div>
+
+        
+        
+
+    <% } else { %>
+
+    <div class="usuario-info">
+
+        <a href="/usuarios/login" class="btn-login">
+            Iniciar sesión
+        </a>
+
+    </div>
+
+<% } %>
+</nav>
+
+<div class="container" style="max-width:400px; margin:60px auto;">
+
+    <h1>Iniciar Sesión</h1>
+
+    <% if (typeof error !== 'undefined' && error) { %>
+        <p style="color:#c1121f; font-weight:bold;">
+            Usuario o contraseña incorrectos
+        </p>
+    <% } %>
+
+    <form action="/usuarios/login" method="POST">
+
+        <input type="text" name="usuario" placeholder="Usuario" required
+               style="width:100%; padding:10px; margin-bottom:10px;">
+
+        <input type="password" name="password" placeholder="Contraseña" required
+               style="width:100%; padding:10px; margin-bottom:10px;">
+
+        <button type="submit" class="btn" style="width:100%; border:none; cursor:pointer;">
+            Entrar
+        </button>
+
+    </form>
+
+    <p style="margin-top:15px;">
+        ¿No tienes cuenta? <a href="/usuarios/registro">Regístrate aquí</a>
+    </p>
+
+</div>
+
+</body>
+</html>

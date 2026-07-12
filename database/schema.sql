@@ -21,6 +21,16 @@ CREATE TABLE salas (
     tipo VARCHAR(50)
 );
 
+CREATE TABLE usuarios (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nombre VARCHAR(150) NOT NULL,
+    usuario VARCHAR(100) NOT NULL UNIQUE,
+    password VARCHAR(255) NOT NULL,
+    correo VARCHAR(150),
+    rol VARCHAR(50) NOT NULL DEFAULT 'cliente',
+    creado_en TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
 -- 2. Tablas con llaves foráneas
 CREATE TABLE funciones (
     id INT AUTO_INCREMENT PRIMARY KEY,

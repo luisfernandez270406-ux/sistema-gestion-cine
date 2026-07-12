@@ -16,6 +16,37 @@
         <a href="/peliculas">Películas</a>
         <a href="/reservaciones">Reservas</a>
     </div>
+    <% if(usuario){ %>
+
+        <div class="usuario-info">
+            <span class="rol <%= usuario.rol %>">
+                 <%= usuario.rol %>
+            </span>
+
+            <span class="usuario-nombre">
+                 <%= usuario.usuario %>
+            </span>
+
+            <a href="/usuarios/logout" class="logout">
+                Cerrar sesión
+            </a>
+
+        </div>
+
+        
+        
+
+    <% } else { %>
+
+    <div class="usuario-info">
+
+        <a href="/usuarios/login" class="btn-login">
+            Iniciar sesión
+        </a>
+
+    </div>
+
+<% } %>
 </nav>
 
 <section class="hero">

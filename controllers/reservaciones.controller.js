@@ -4,7 +4,11 @@ class ReservacionesController {
     async listar(req,res) {
         try {
             // await = perate un momentico
-            const reservaciones = await ReservacionesModel.listarDetallado();
+            let idUsuario = null
+            if (req.usuario.rol === "cliente") {
+                idUsuario = req.usuario.id
+            }
+            const reservaciones = await ReservacionesModel.listarDetallado(idUsuario);
             if(req.accepts('json') && !req.accepts('html')) {
                 return res.json(reservaciones);
             } 
@@ -16,7 +20,11 @@ class ReservacionesController {
     
     async listarApi(req, res) {
         try {
-            const reservaciones = await ReservacionesModel.listarDetallado();
+            let idUsuario = null
+            if (req.usuario.rol === "cliente"){
+                idUsuario = req.usuario.id
+            }
+            const reservaciones = await ReservacionesModel.listarDetallado(idUsuario);
             return res.json(reservaciones);
         } catch (error) {
             res.status(500).json({ error: error.message });
@@ -25,6 +33,11 @@ class ReservacionesController {
     
     async crear(req,res) {
         try {
+
+            if(req.usuario.rol === "cliente") {
+                req.body.id_usuario = req.usuario.id;
+                req.body.nombre_cliente = req.usuario.usuario;
+            }
             const nuevaReservacion = await ReservacionesModel.crear(req.body);
             if(req.accepts('json') && !req.accepts('html')) {
                 return res.status(201).json(nuevaReservacion);
@@ -36,6 +49,10 @@ class ReservacionesController {
     }
     async crearApi(req, res) {
         try {
+            if(req.usuario.rol === "cliente") {
+                req.body.id_usuario = req.usuario.id;
+                req.body.nombre_cliente = req.usuario.usuario;
+            }
             const nuevaReservacion = await ReservacionesModel.crear(req.body);
             return res.status(201).json(nuevaReservacion);
         } catch (error) {

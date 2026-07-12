@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Crear Cuenta</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+
+<nav>
+    <div class="logo">
+         CineManager
+    </div>
+
+    <div class="nav-links">
+        <a href="/">Inicio</a>
+        <a href="/peliculas">Películas</a>
+        <a href="/reservaciones">Reservas</a>
+    </div>
+    <% if(usuario){ %>
+
+        <div class="usuario-info">
+            <span class="rol <%= usuario.rol %>">
+                 <%= usuario.rol %>
+            </span>
+
+            <span class="usuario-nombre">
+                 <%= usuario.usuario %>
+            </span>
+
+            <a href="/usuarios/logout" class="logout">
+                Cerrar sesión
+            </a>
+
+        </div>
+
+        
+        
+
+    <% } else { %>
+
+    <div class="usuario-info">
+
+        <a href="/usuarios/login" class="btn-login">
+            Iniciar sesión
+        </a>
+
+    </div>
+
+<% } %>
+</nav>
+
+<div class="container" style="max-width:400px; margin:60px auto;">
+
+    <h1>Crear Cuenta</h1>
+
+    <% if (typeof error !== 'undefined' && error) { %>
+        <p style="color:#c1121f; font-weight:bold;">
+            No se pudo crear la cuenta. Verifica los datos o intenta con otro usuario.
+        </p>
+    <% } %>
+
+    <form action="/usuarios/registro" method="POST">
+
+        <input type="text" name="nombre" placeholder="Nombre completo" required
+               style="width:100%; padding:10px; margin-bottom:10px;">
+
+        <input type="text" name="usuario" placeholder="Usuario" required
+               style="width:100%; padding:10px; margin-bottom:10px;">
+
+        <input type="email" name="correo" placeholder="Correo"
+               style="width:100%; padding:10px; margin-bottom:10px;">
+
+        <input type="password" name="password" placeholder="Contraseña" required
+               style="width:100%; padding:10px; margin-bottom:10px;">
+
+        <button type="submit" class="btn" style="width:100%; border:none; cursor:pointer;">
+            Registrarme
+        </button>
+
+    </form>
+
+    <p style="margin-top:15px;">
+        ¿Ya tienes cuenta? <a href="/usuarios/login">Inicia sesión</a>
+    </p>
+
+</div>
+
+</body>
+</html>

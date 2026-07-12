@@ -8,13 +8,46 @@
 <body>
 
 <nav>
-    <div class="logo">CineManager</div>
+    <div class="logo">
+         CineManager
+    </div>
 
     <div class="nav-links">
         <a href="/">Inicio</a>
         <a href="/peliculas">Películas</a>
-        <a href="/reservaciones">Reservaciones</a>
+        <a href="/reservaciones">Reservas</a>
     </div>
+    <% if(usuario){ %>
+
+        <div class="usuario-info">
+            <span class="rol <%= usuario.rol %>">
+                 <%= usuario.rol %>
+            </span>
+
+            <span class="usuario-nombre">
+                 <%= usuario.usuario %>
+            </span>
+
+            <a href="/usuarios/logout" class="logout">
+                Cerrar sesión
+            </a>
+
+        </div>
+
+        
+        
+
+    <% } else { %>
+
+    <div class="usuario-info">
+
+        <a href="/usuarios/login" class="btn-login">
+            Iniciar sesión
+        </a>
+
+    </div>
+
+<% } %>
 </nav>
 
 <div class="container">

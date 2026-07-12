@@ -5,6 +5,14 @@ import { verificarToken } from '../../middleware/auth.js';
 import { verificarRol } from '../../middleware/role.js';
 
 
+//ruta login de usuario
+router.post("/login", usuariosController.loginApi);
+
+router.post('/registro', usuariosController.crearApi);
+
+router.get("/logout", usuariosController.logout);
+
+
 //ruta para listar los usuarios
 router.get("/", verificarToken, verificarRol("admin","empleado"),usuariosController.listarApi);
 //ruta para crear un nuevo usuario
@@ -13,7 +21,6 @@ router.post("/", usuariosController.crearApi);
 router.get("/:id", usuariosController.obtenerPorIdApi);
 //ruta para eliminar un usuario
 router.delete("/eliminar/:id", verificarToken, verificarRol("admin"),usuariosController.eliminarApi);
-//ruta login de usuario
-router.post("/login", usuariosController.login);
+
 
 export default router;

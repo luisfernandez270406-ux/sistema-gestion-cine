@@ -15,6 +15,9 @@ import funcionesApiRoutes from './routes/api/funciones.api.js';
 import reservacionesApiRoutes from './routes/api/reservaciones.api.js';
 import ticketsApiRoutes from './routes/api/tickets.api.js';
 import usuariosApiRoutes from './routes/api/usuarios.api.js';
+import cookieParser from "cookie-parser";
+import jwt from "jsonwebtoken";
+
 
 //Configuración del motor de plantillas EJS
 app.set('view engine', 'ejs');
@@ -25,6 +28,37 @@ app.use(express.static('public'));
 //Middlewares Necesarios para leer datos de formularios
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+
+app.use(cookieParser());
+
+
+app.use((req, res, next) => {
+
+    const token = req.cookies.token;
+
+    if (!token) {
+        res.locals.usuario = null;
+        return next();
+    }
+
+    try {
+
+        const datos = jwt.verify(token, process.env.JWT_SECRET);
+
+        req.usuario = datos;
+
+        res.locals.usuario = datos;
+
+    } catch (error) {
+
+        res.locals.usuario = null;
+
+    }
+
+    next();
+
+});
+
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());

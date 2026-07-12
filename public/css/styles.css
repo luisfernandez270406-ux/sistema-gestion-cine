@@ -21,11 +21,7 @@ nav{
     font-size:1.5rem;
     font-weight:bold;
 }
-.nav-links a{
-    color:white;
-    text-decoration:none;
-    margin-left:20px;
-}
+
 .hero{
     height:90vh;
 
@@ -176,4 +172,76 @@ tr:hover{
     gap:10px;
     justify-content:center;
     align-items:center;
+}
+.usuario-info{
+    display:flex;
+    align-items:center;
+    gap:20px;
+}
+
+.usuario-datos{
+    display:flex;
+    align-items:center;
+    gap:10px;
+}
+
+.usuario-icono{
+    font-size:20px;
+}
+
+.usuario-datos strong{
+    display:block;
+    font-size:15px;
+}
+
+.usuario-datos small{
+    color:#bdbdbd;
+    font-size:12px;
+    text-transform:capitalize;
+}
+
+.logout{
+    background:#c1121f;
+    color:white;
+    padding:8px 15px;
+    border-radius:5px;
+    text-decoration:none;
+    transition:.3s;
+}
+
+.logout:hover{
+    background:#970f18;
+}
+
+.rol{
+    padding:3px 8px;
+    border-radius:20px;
+    font-size:11px;
+    font-weight:bold;
+    color:white;
+}
+
+.rol.admin{
+    background:#d62828;
+}
+
+.rol.empleado{
+    background:#1976d2;
+}
+
+.rol.cliente{
+    background:#2e7d32;
+}
+.btn-login{
+    background:#d62828;
+    color:white;
+    text-decoration:none;
+    padding:8px 15px;
+    border-radius:5px;
+    font-weight:bold;
+    transition:.3s;
+}
+
+.btn-login:hover{
+    background:#680a0a;
 }
