@@ -11,6 +11,15 @@ class TicketsController {
         } catch (error) {
             res.status(500).json({ error: error.message });
         }
+    
+    }
+    async listarApi(req, res) {
+        try {
+            const tickets = await TicketsModel.listar();
+            return res.json(tickets);
+        } catch (error) {
+            res.status(500).json({ error: error.message });
+        }
     }
     async crear(req,res) {
         try {
@@ -19,6 +28,14 @@ class TicketsController {
                 return res.status(201).json(nuevoTicket);
             }
             res.redirect('/tickets');
+        } catch (error) {
+            res.status(400).json({ error: error.message });
+        }
+    }
+      async crearApi(req, res) {
+        try {
+            const nuevoTicket = await TicketsModel.crear(req.body);
+            return res.status(201).json(nuevoTicket);
         } catch (error) {
             res.status(400).json({ error: error.message });
         }
@@ -34,6 +51,14 @@ class TicketsController {
             res.status(400).json({ error: error.message });
         }
     }
+    async editarApi(req, res) {
+        try {
+            const ticketActualizado = await TicketsModel.editar(req.params.id, req.body);
+            return res.json(ticketActualizado);
+        } catch (error) {
+            res.status(400).json({ error: error.message });
+        }
+    }
     async eliminar(req,res) {
         try {  
             const resultado = await TicketsModel.eliminar(req.params.id);
@@ -41,6 +66,14 @@ class TicketsController {
                 return res.json(resultado);
             }
             res.redirect('/tickets');
+        } catch (error) {
+            res.status(400).json({ error: error.message });
+        }
+    }
+    async eliminarApi(req, res) {
+        try {
+            const resultado = await TicketsModel.eliminar(req.params.id);
+            return res.json(resultado);
         } catch (error) {
             res.status(400).json({ error: error.message });
         }
@@ -56,7 +89,7 @@ class TicketsController {
             res.status(400).json({ error: error.message });
         }
         }
-        filtrarPorFecha = async (req, res) => {
+    filtrarPorFecha = async (req, res) => {
     try {
         const { inicio, fin } = req.query;
         
@@ -70,6 +103,23 @@ class TicketsController {
         res.status(400).json({ error: error.message });
     }
 }
+    filtrarPorFechaApi = async (req, res) => {
+        try {
+            const { inicio, fin } = req.query;
+            const tickets = await TicketsModel.filtrarPorFecha(inicio, fin);
+            return res.json(tickets);
+        } catch (error) {
+            res.status(400).json({ error: error.message });
+        }
+    }
+    async obtenerDetallesApi(req, res) {
+        try {
+            const ticket = await TicketsModel.obtenerDetalles(req.params.id);
+            return res.json(ticket);
+        } catch (error) {
+            res.status(400).json({ error: error.message });
+        }
+    }
 
 
         async obtenerUltimosElementos(req,res) {
@@ -80,6 +130,8 @@ class TicketsController {
             res.status(400).json({ error: error.message });
         }
     }
+
+    
 
 }
 

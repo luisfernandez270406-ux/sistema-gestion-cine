@@ -12,6 +12,15 @@ class FuncionesController {
         }
 
 }
+    async listarApi(req, res) {
+        try {
+            const funciones = await FuncionesModel.listar();
+            return res.json(funciones);
+        } catch (error) {
+            res.status(500).json({ error: error.message });
+        }
+    }
+
     async crear(req,res) {
         try {
             const nuevaFuncion = await FuncionesModel.crear(req.body);
@@ -23,6 +32,16 @@ class FuncionesController {
             res.status(400).json({ error: error.message });
         }
     }
+
+    async crearApi(req, res) {
+        try {
+            const nuevaFuncion = await FuncionesModel.crear(req.body);
+            return res.status(201).json(nuevaFuncion);
+        } catch (error) {
+            res.status(400).json({ error: error.message });
+        }
+    }
+
     async editar(req,res) {
         try {
             const funcionActualizada = await FuncionesModel.editar(req.params.id, req.body);
@@ -30,6 +49,15 @@ class FuncionesController {
                 return res.json(funcionActualizada);
             }
             res.redirect('/funciones');
+        } catch (error) {
+            res.status(400).json({ error: error.message });
+        }
+    }
+
+    async editarApi(req, res) {
+        try {
+            const funcionActualizada = await FuncionesModel.editar(req.params.id, req.body);
+            return res.json(funcionActualizada);
         } catch (error) {
             res.status(400).json({ error: error.message });
         }
@@ -46,7 +74,17 @@ class FuncionesController {
         }
     }
 
-
+    async eliminarApi(req, res) {
+        try {
+            await FuncionesModel.eliminar(req.params.id);
+            return res.json({ message: 'Función eliminada correctamente' });
+        } catch (error) {
+            res.status(400).json({ error: error.message });
+        }
+    }
 }
+
+
+
 
 export default new FuncionesController();

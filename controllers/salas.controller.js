@@ -17,6 +17,18 @@ class SalasController {
             res.status(500).json({ error: 'Error al cargar las salas' });
         });
 }
+    listarApi(req, res) {
+    
+    SalasModel.listar()
+        .then(salas => {
+            res.json(salas);
+        })
+        .catch(error => {
+           
+            console.error('Error al obtener las salas:', error);
+            res.status(500).json({ error: 'Error al cargar las salas' });
+        });
+}
 
     crear(req,res) {
         SalasModel.crear(req.body)
@@ -25,6 +37,15 @@ class SalasController {
                 return res.status(201).json(nuevaSala);
             }
             res.redirect('/salas');
+        })
+        .catch(error => {
+            res.status(400).send({ error });
+        });
+    }
+    crearApi(req,res) {
+        SalasModel.crear(req.body)
+        .then(nuevaSala => {
+            return res.status(201).json(nuevaSala);
         })
         .catch(error => {
             res.status(400).send({ error });
@@ -42,6 +63,15 @@ class SalasController {
             res.status(400).send({ error });
         });
     }
+    editarApi(req,res) {
+        SalasModel.editar(req.params.id, req.body)
+        .then(salaActualizada => {
+            return res.json(salaActualizada);
+        })
+        .catch(error => {
+            res.status(400).send({ error });
+        });
+    }
     eliminar(req,res) {
         SalasModel.eliminar(req.params.id)
         .then(() => {
@@ -54,6 +84,17 @@ class SalasController {
             res.status(400).send({ error });
         });
     }
+    
+    eliminarApi(req,res) {
+        SalasModel.eliminar(req.params.id)
+        .then(() => {
+            return res.json({ message: 'Sala eliminada correctamente' })
+        })
+        .catch(error => {
+            res.status(400).send({ error });
+        });
+    }
 }
+
 
 export default new SalasController();

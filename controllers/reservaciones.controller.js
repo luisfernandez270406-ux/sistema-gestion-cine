@@ -13,6 +13,16 @@ class ReservacionesController {
             res.status(500).json({ error: error.message });
         }
     }
+    
+    async listarApi(req, res) {
+        try {
+            const reservaciones = await ReservacionesModel.listarDetallado();
+            return res.json(reservaciones);
+        } catch (error) {
+            res.status(500).json({ error: error.message });
+        }
+    }
+    
     async crear(req,res) {
         try {
             const nuevaReservacion = await ReservacionesModel.crear(req.body);
@@ -24,6 +34,14 @@ class ReservacionesController {
             res.status(400).json({ error: error.message });
         }
     }
+    async crearApi(req, res) {
+        try {
+            const nuevaReservacion = await ReservacionesModel.crear(req.body);
+            return res.status(201).json(nuevaReservacion);
+        } catch (error) {
+            res.status(400).json({ error: error.message });
+        }
+    }
     async editar(req,res) {
         try {
             const reservacionActualizada = await ReservacionesModel.editar(req.params.id, req.body);
@@ -31,6 +49,14 @@ class ReservacionesController {
                 return res.json(reservacionActualizada);
             }
             res.redirect('/reservaciones');
+        } catch (error) {
+            res.status(400).json({ error: error.message });
+        }
+    }
+    async editarApi(req, res) {
+        try {
+            const reservacionActualizada = await ReservacionesModel.editar(req.params.id, req.body);
+            return res.json(reservacionActualizada);
         } catch (error) {
             res.status(400).json({ error: error.message });
         }
@@ -57,6 +83,23 @@ class ReservacionesController {
             res.status(400).json({ error: err });
         });
 }
+eliminarApi(req, res) {
+        const id = req.params.id;
+ 
+        ReservacionesModel.tieneTickets(id)
+            .then(tiene => {
+                if (tiene) {
+                    return res.status(400).json({ error: 'No se puede eliminar: esta reservación tiene tickets asociados' });
+                }
+ 
+                return ReservacionesModel.eliminar(id)
+                    .then(() => res.json({ message: 'Reservación eliminada correctamente' }));
+            })
+            .catch(err => {
+                res.status(400).json({ error: err });
+            });
+    }
+    
     mostrarFormulario(req,res) {
         res.render('nueva-reservacion');
     }
@@ -78,7 +121,21 @@ class ReservacionesController {
             console.error(error);
             res.status(500).send('Error interno');
         });
-}
+}   
+    obtenerPorIdApi(req, res) {
+        ReservacionesModel.obtenerPorId(req.params.id)
+            .then(reserva => {
+                if (!reserva) {
+                    return res.status(404).json({ error: 'Reservación no encontrada' });
+                }
+                return res.json(reserva);
+            })
+            .catch(error => {
+                res.status(500).json({ error: error.message });
+            });
+    }
+
+
 }
 
 export default new ReservacionesController();

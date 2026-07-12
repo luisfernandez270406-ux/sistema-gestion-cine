@@ -1,6 +1,8 @@
 import express from 'express';
 const router = express.Router();
 import ReservacionesController from '../controllers/reservaciones.controller.js';
+import { verificarToken } from '../middleware/auth.js';
+import { verificarRol } from '../middleware/role.js';
 
 //ruta para listar las reservaciones
 router.get('/', ReservacionesController.listar);

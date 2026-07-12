@@ -13,6 +13,14 @@ class UsuariosController {
         }
 
     }
+    async listarApi(req, res) {
+        try {
+            const usuarios = await UsuariosModel.listar();
+            return res.json(usuarios);
+        } catch (error) {
+            res.status(500).json({ error: error.message });
+        }
+    }
     async crear(req,res) {
         try {
             const usuarioExistente = await UsuariosModel.obtenerPorUsuario(req.body.usuario);
@@ -28,6 +36,18 @@ class UsuariosController {
             res.status(400).json({ error: error.message });
         }  
     } 
+    async crearApi(req, res) {
+        try {
+            const usuarioExistente = await UsuariosModel.obtenerPorUsuario(req.body.usuario);
+            if (usuarioExistente) {
+                return res.status(400).json({ error: 'El nombre de usuario ya está en uso' });
+            }
+            const nuevoUsuario = await UsuariosModel.crear(req.body);
+            return res.status(201).json(nuevoUsuario);
+        } catch (error) {
+            res.status(400).json({ error: error.message });
+        }
+    }
     async obtenerPorId(req,res) {
         try {
             const usuario = await UsuariosModel.obtenerPorId(req.params.id);
@@ -35,6 +55,17 @@ class UsuariosController {
                 return res.json(usuario);
             }
             res.render('editar-usuario', { usuario });
+        } catch (error) {
+            res.status(400).json({ error: error.message });
+        }
+    }
+    async obtenerPorIdApi(req, res) {
+        try {
+            const usuario = await UsuariosModel.obtenerPorId(req.params.id);
+            if (!usuario) {
+                return res.status(404).json({ error: 'Usuario no encontrado' });
+            }
+            return res.json(usuario);
         } catch (error) {
             res.status(400).json({ error: error.message });
         }
@@ -50,6 +81,14 @@ class UsuariosController {
             res.status(400).json({ error: error.message });
         }
     } 
+    async eliminarApi(req, res) {
+        try {
+            const resultado = await UsuariosModel.eliminar(req.params.id);
+            return res.json(resultado);
+        } catch (error) {
+            res.status(400).json({ error: error.message });
+        }
+    }
     async login(req,res) {
         try {
             const { usuario, password } = req.body;
@@ -67,7 +106,6 @@ class UsuariosController {
             res.status(400).json({ error: error.message });
         }
     }
-
 }
 
 export default new UsuariosController();
