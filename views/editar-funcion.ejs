@@ -9,17 +9,21 @@
 
 <body>
     <nav>
-        <div class="logo">
+    <div class="logo">
          CineManager
-        </div>
+    </div>
 
-        <div class="nav-links">
-            <a href="/">Inicio</a>
-            <a href="/peliculas">Películas</a>
-            <a href="/reservaciones">Reservas</a>
-            <a href="/funciones">Funciones</a>
-        </div>
-        <% if(usuario){ %>
+    <div class="nav-links">
+        <a href="/">Inicio</a>
+        <a href="/peliculas">Películas</a>
+        <a href="/reservaciones">Reservas</a>
+        <a href="/funciones">Funciones</a>
+        <% if (usuario && (usuario.rol === 'admin' || usuario.rol === 'empleado')) { %>
+            <a href="/productos">Productos</a>
+            <a href="/ventas">Ventas</a>
+        <% } %>
+    </div>
+    <% if(usuario){ %>
 
         <div class="usuario-info">
             <span class="rol <%= usuario.rol %>">
@@ -36,9 +40,6 @@
 
         </div>
 
-        
-        
-
     <% } else { %>
 
     <div class="usuario-info">
@@ -50,7 +51,7 @@
     </div>
 
 <% } %>
-    </nav>
+</nav>
 
     <div class="container">
 

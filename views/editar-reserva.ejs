@@ -17,6 +17,10 @@
         <a href="/peliculas">Películas</a>
         <a href="/reservaciones">Reservas</a>
         <a href="/funciones">Funciones</a>
+        <% if (usuario && (usuario.rol === 'admin' || usuario.rol === 'empleado')) { %>
+            <a href="/productos">Productos</a>
+            <a href="/ventas">Ventas</a>
+        <% } %>
     </div>
     <% if(usuario){ %>
 
@@ -34,9 +38,6 @@
             </a>
 
         </div>
-
-        
-        
 
     <% } else { %>
 
@@ -57,23 +58,32 @@
 
     <form action="/reservaciones/editar/<%= reserva.id %>?_method=PUT" method="POST">
 
-        <!-- Cliente -->
-        <input name="nombre_cliente" value="<%= reserva.nombre_cliente %>" placeholder="Nombre del cliente" required>
+        <label>Cliente</label>
+        <select name="id_usuario" required>
+            <% clientes.forEach(c => { %>
+                <option value="<%= c.id %>" <%= c.id === reserva.id_usuario ? 'selected' : '' %>>
+                    <%= c.nombre %> (<%= c.usuario %>)
+                </option>
+            <% }) %>
+        </select>
 
-        <!-- Asientos -->
-        <input name="cantidad_asientos" value="<%= reserva.cantidad_asientos %>" placeholder="Cantidad de asientos" required>
+        <label>Cantidad de asientos</label>
+        <input name="cantidad_asientos" type="number" min="1" value="<%= reserva.cantidad_asientos %>" required>
 
-        <!-- INFO DE FUNCION (NO SOLO ID) -->
-        <div style="margin: 10px 0; padding: 10px; background:#f4f4f4; border-radius:5px;">
-            <strong>Función actual:</strong><br>
-            Película: <%= reserva.titulo || 'N/A' %><br>
-            Sala: <%= reserva.sala || 'N/A' %><br>
-            Horario: <%= reserva.horario || 'N/A' %><br>
-            Precio: $<%= reserva.precio || 0 %>
-        </div>
-
-        <!-- Si quieres cambiar la función -->
-        <input name="id_funcion" value="<%= reserva.id_funcion %>" placeholder="ID de nueva función">
+        <label>Función</label>
+        <select name="id_funcion" required>
+            <% funciones.forEach(funcion => { %>
+                <option value="<%= funcion.id %>" <%= funcion.id === reserva.id_funcion ? 'selected' : '' %>>
+                    <%= funcion.titulo %>
+                    -
+                    <%= funcion.sala %>
+                    -
+                    <%= funcion.horario %>
+                    -
+                    $<%= funcion.precio %>
+                </option>
+            <% }) %>
+        </select>
 
         <button type="submit" class="btn">Actualizar</button>
 

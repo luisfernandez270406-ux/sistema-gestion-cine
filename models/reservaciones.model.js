@@ -1,6 +1,9 @@
 import pool from '../database/db.js';
 
 class ReservacionesModel {
+
+    // idUsuario es OPCIONAL. Si se manda, solo trae las reservaciones de ese usuario.
+    // Si es null/undefined, trae TODAS (para empleado/admin).
     static async listarDetallado(idUsuario = null) {
         let query = `
             SELECT
@@ -72,10 +75,26 @@ class ReservacionesModel {
     }
 
     static async editar(id, datos) {
-        const { id_funcion, nombre_cliente, cantidad_asientos } = datos;
+        const { id_funcion, cantidad_asientos, id_usuario } = datos;
+
+        if (!id_usuario) {
+            throw new Error('Debes seleccionar un cliente');
+        }
+
+        const [filasUsuario] = await pool.query(
+            'SELECT nombre FROM usuarios WHERE id = ?',
+            [id_usuario]
+        );
+
+        if (filasUsuario.length === 0) {
+            throw new Error('El cliente seleccionado no existe');
+        }
+
+        const nombreCliente = filasUsuario[0].nombre;
+
         const [resultado] = await pool.query(
-            'UPDATE reservaciones SET id_funcion = ?, nombre_cliente = ?, cantidad_asientos = ? WHERE id = ?',
-            [id_funcion, nombre_cliente, cantidad_asientos, id]
+            'UPDATE reservaciones SET id_funcion = ?, nombre_cliente = ?, cantidad_asientos = ?, id_usuario = ? WHERE id = ?',
+            [id_funcion, nombreCliente, cantidad_asientos, id_usuario, id]
         );
         return resultado;
     }

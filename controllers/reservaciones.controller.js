@@ -121,24 +121,27 @@ class ReservacionesController {
             res.status(500).json({ error: error.message });
         }
     }
-    obtenerPorId(req, res) {
-        ReservacionesModel.obtenerPorId(req.params.id)
-            .then(reserva => {
+    async obtenerPorId(req, res) {
+        try {
+            const reserva = await ReservacionesModel.obtenerPorId(req.params.id);
 
-                if (!reserva) {
-                    return res.status(404).send('Reservación no encontrada');
-                }
+            if (!reserva) {
+                return res.status(404).send('Reservación no encontrada');
+            }
 
-                if (req.accepts('json') && !req.accepts('html')) {
-                    return res.json(reserva);
-                }
+            if (req.accepts('json') && !req.accepts('html')) {
+                return res.json(reserva);
+            }
 
-                res.render('editar-reserva', { reserva });
-            })
-            .catch(error => {
-                console.error(error);
-                res.status(500).send('Error interno');
-            });
+            const funciones = await FuncionesModel.listar();
+            const usuarios = await UsuariosModel.listar();
+            const clientes = usuarios.filter(u => u.rol === 'cliente');
+
+            res.render('editar-reserva', { reserva, funciones, clientes });
+        } catch (error) {
+            console.error(error);
+            res.status(500).send('Error interno');
+        }
     }
     obtenerPorIdApi(req, res) {
         ReservacionesModel.obtenerPorId(req.params.id)

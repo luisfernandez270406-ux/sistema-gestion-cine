@@ -54,39 +54,45 @@
 
     <form action="/reservaciones" method="POST">
 
-        <label>Cliente</label>
+    <label>Cliente</label>
+
+    <% if (usuario && usuario.rol !== 'cliente') { %>
         <select name="id_usuario" required>
             <option value="">Seleccione un cliente</option>
             <% clientes.forEach(c => { %>
                 <option value="<%= c.id %>"><%= c.nombre %> (<%= c.usuario %>)</option>
             <% }) %>
         </select>
-
-        <label>Cantidad de asientos</label>
-        <input name="cantidad_asientos" type="number" min="1" placeholder="Cantidad de asientos" required>
-
-        <label>Función</label>
-        <select name="id_funcion" required>
-            <option value="">Seleccione una función</option>
-            <% funciones.forEach(funcion => { %>
-                <option value="<%= funcion.id %>">
-                    <%= funcion.titulo %>
-                    -
-                    <%= funcion.sala %>
-                    -
-                    <%= funcion.horario %>
-                    -
-                    $<%= funcion.precio %>
-                </option>
-            <% }) %>
+    <% } else { %>
+        <select disabled>
+            <option selected><%= usuario.nombre %> (<%= usuario.usuario %>)</option>
         </select>
-        <div>
-            <p><br></p>
-        </div>
+        <input type="hidden" name="id_usuario" value="<%= usuario.id %>">
+    <% } %>
 
-        <button type="submit" class="btn">Crear reservación</button>
+    <label>Cantidad de asientos</label>
+    <input name="cantidad_asientos" type="number" min="1" placeholder="Cantidad de asientos" required>
 
-    </form>
+    <label>Función</label>
+    <select name="id_funcion" required>
+        <option value="">Seleccione una función</option>
+        <% funciones.forEach(funcion => { %>
+            <option value="<%= funcion.id %>">
+                <%= funcion.titulo %>
+                -
+                <%= funcion.sala %>
+                -
+                <%= funcion.horario %>
+                -
+                $<%= funcion.precio %>
+            </option>
+        <% }) %>
+    </select>
+    <br>
+    <br>
+    <button type="submit" class="btn">Crear reservación</button>
+
+</form>
 
 </div>
 

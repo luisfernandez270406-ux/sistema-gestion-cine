@@ -49,7 +49,7 @@ class PeliculaController {
     crearApi(req,res) {
         PeliculasModel.crear(req.body)
         .then(nuevaPelicula => {
-                return res.status(201).json(nuevaPelicula);
+            return res.status(201).json(nuevaPelicula);
         })
         .catch(error => {
             res.status(400).json({ error });// mostrar error

@@ -56,7 +56,7 @@
 
     <div class="header-page">
         <h1>Reservaciones</h1>
-        <% if (usuario && (usuario.rol === 'admin' || usuario.rol === 'empleado')) { %>
+        <% if (usuario) { %>
             <a href="/reservaciones/nueva" class="btn">Nueva Reserva</a>
         <% } %>
     </div>
