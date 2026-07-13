@@ -47,13 +47,7 @@ Al finalizar este proceso, la estructura de la base de datos quedará creada y l
 
 ### 3.5 Migración a otro servidor
 
-El archivo `database/schema.sql` funciona como script de migración: contiene el volcado completo de la estructura de la base de datos (tablas, llaves foráneas e índices). Para desplegar el sistema en un servidor nuevo, basta con importar este archivo mediante phpMyAdmin (como se describe en el punto 3.4) o ejecutando:
-
-```bash
-mysql -u root -p sistema_cine < database/schema.sql
-```
-
-Esto recrea toda la estructura necesaria para que el sistema funcione
+El archivo `database/schema.sql` funciona como script de migración: contiene el volcado completo de la estructura de la base de datos (tablas, llaves foráneas e índices). Para desplegar el sistema en un servidor nuevo, basta con importar este archivo mediante phpMyAdmin, como se describe en el punto 3.4
 
 ## 4. Despliegue y Preparación del Entorno de Aplicación
 
