@@ -133,6 +133,25 @@ Matriz de permisos:
 
 La interfaz también adapta automáticamente los botones y el menú de navegación según el rol del usuario autenticado.
 
+### 6.4 Consumo desde la API REST (Thunder Client / Postman)
+
+Todas las rutas de la API están prefijadas con `/api`, seguido del nombre de la entidad. Es decir, cada módulo tiene dos "entradas": la ruta web (para el navegador) y su equivalente en `/api/...` (que siempre responde JSON).
+
+Ejemplo con Películas:
+
+| Acción | Ruta Web | Ruta API |
+|---|---|---|
+| Listar | `GET /peliculas` | `GET /api/peliculas` |
+| Crear | `POST /peliculas` | `POST /api/peliculas` |
+| Editar | `PUT /peliculas/editar/:id` | `PUT /api/peliculas/editar/:id` |
+| Eliminar | `DELETE /peliculas/eliminar/:id` | `DELETE /api/peliculas/eliminar/:id` |
+
+Este mismo patrón (`/api/<entidad>/...`) aplica a `funciones`, `salas`, `reservaciones`, `tickets`, `productos`, `ventas` y `usuarios`. Las rutas protegidas requieren el encabezado:
+```text
+Authorization: Bearer 
+```
+obtenido previamente desde `POST /api/usuarios/login`.
+
 ## 7. Guía de Operaciones (CRUD)
 El sistema permite gestionar de forma completa el ciclo de vida de los datos para todas las entidades mediante formularios web (EJS) y peticiones HTTP. A continuación, se detalla el funcionamiento de cada una:
 ## 7.1. Gestión de Películas
